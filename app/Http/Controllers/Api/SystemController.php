@@ -8,11 +8,24 @@ use Illuminate\Http\Request;
 
 class SystemController extends Controller
 {
+    public function getFee()
+    {
+        $system = System::find(1);
+        return response()->json([
+            'normal_fee' => $system->normal_fee,
+            'initial_fee' => $system->initial_fee,
+            'commission_fee' => $system->commission_fee,
+            'waiting_fee' => $system->waiting_fee,
+
+        ]);
+    }
     public function getNormalFee()
     {
         $system = System::find(1);
         return response()->json([
             'normal_fee' => $system->normal_fee,
+            
+
         ]);
     }
     public function getInitialFee()

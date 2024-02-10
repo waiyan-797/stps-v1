@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('vehicle_model')->nullable();
             $table->string('vehicle_image_url')->nullable();
             $table->unsignedBigInteger('user_id');
+            // $table->string('type');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });

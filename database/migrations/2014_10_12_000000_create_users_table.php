@@ -25,6 +25,8 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->timestamp('birth_date')->nullable();
             $table->string('address')->nullable();
+            $table->double('lat')->nullable();
+            $table->double('lng')->nullable();
             $table->string('nrc_no')->unique()->nullable();
             $table->string('driving_license')->unique()->nullable();
             $table->decimal('balance', 10, 0)->default(0);

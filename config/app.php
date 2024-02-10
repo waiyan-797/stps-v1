@@ -143,7 +143,12 @@ return [
         // 'store'  => 'redis',
     ],
 
+   
+
+    
+
     /*
+    
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers
     |--------------------------------------------------------------------------
@@ -153,6 +158,8 @@ return [
     | this array to grant expanded functionality to your applications.
     |
     */
+
+
 
     'providers' => [
 
@@ -187,7 +194,7 @@ return [
         /*
          * Package Service Providers...
          */
-
+        
         /*
          * Application Service Providers...
          */

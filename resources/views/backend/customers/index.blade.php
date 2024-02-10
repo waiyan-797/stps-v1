@@ -3,7 +3,7 @@
 @section('content')
 	<div class=" container">
 		<div class="col-md-3">
-			<form action="{{ route('users.search') }}" method="GET">
+			<form action="{{ route('customers.search') }}" method="GET">
 				@csrf
 				<div class="input-group mb-3">
 					<button class="btn btn-outline-secondary text-dark" type="submit" style="border:1px solid #ced4da"><i
@@ -18,9 +18,10 @@
 			<table class="table table-striped table-hover">
 				<thead class=" table-secondary" style="border-bottom:1px solid #ccc">
 					<tr class="">
-						<th>Driver ID</th>
-						<th>Driver Name</th>
-						<th>Vehicle number</th>
+                        <th>#</th>
+						<th>Customer ID</th>
+						<th>Customer Name</th>
+                        <th>Email</th>
 						<th>Phone number</th>
 						<th>Address</th>
 						<th>Status</th>
@@ -30,11 +31,13 @@
 				<tbody class="table-group-divider" style="border-top:10px solid #ffffff">
 					@foreach ($users as $key => $user)
 						<tr class="">
+                            <td>{{ $loop->index + 1 }}</td>
+                            
 							<td>{{ $user->driver_id }}</td>
 							<td>
 								<a class="text-dark text-decoration-none" href="{{ route('users.show', $user->id) }}">{{ $user->name }}</a>
 							</td>
-							<td>{{ $user->vehicle ? $user->vehicle->vehicle_plate_no : '' }}</td>
+							<td>{{$user->email}}</td>
 							<td>{{ $user->phone }}</td>
 							<td>{{ $user->address }}</td>
 							<td>
@@ -45,7 +48,7 @@
 								@endif
 							</td>
 							<td>
-								<a class=" text-decoration-none" href="{{ route('users.edit', $user) }}">
+								<a class=" text-decoration-none" href="{{ route('customers.edit', $user) }}">
 									<span class="me-2">
 										<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
 											<path d="M7.33325 14H13.9999" stroke="#524E45" stroke-opacity="0.84" stroke-width="1.5"
@@ -58,36 +61,35 @@
 										</svg>
 									</span>
 								</a>
-								@role('admin')
-									<span>
-										<form class="d-inline" action="{{ route('users.destroy', $user->id) }}" method="POST">
-											@csrf
-											@method('DELETE')
-											<button class="btn btn-reset btn-clear" type="submit">
-												<i class="fa-regular fa-trash-can text-danger"></i>
-											</button>
-										</form>
-									</span>
-								@endcan
+
+                                @role('admin')
+                                    <span>
+                                        <a href="{{ route('customers.destroy',$user->id)}}" class="btn btn-reset btn-clear text-decoration-none">
+                                            <i class="fa-regular fa-trash-can text-danger"></i>
+                                        </a>
+                                    </span>
+                                @endrole
+								
 							</td>
 						</tr>
 					@endforeach
+                    
 
 				</tbody>
 			</table>
 			<div class="row m-0 justify-content-between">
 				<div class="col-md-2 ps-0">
-					{{-- <p class=" text-muted">Total: {{ $usersCount }}</p> --}}
+					<p class=" text-muted">Total: {{ $usersCount }}</p>
 				</div>
 				<div class="col-md-2 pe-0">
 
-					{{-- <nav class="row m-0">
+					<nav class="row m-0">
 						<ul class="pagination pagination-sm justify-content-end p-0">
 							<li class="page-item {{ $users->onFirstPage() ? 'disabled' : '' }}">
 								<a class="page-link" id="pre-page-link" href="{{ $users->previousPageUrl() }}" rel="prev"><</a>
 							</li>
 
-							@if ($users->lastPage() > 1)
+							@if ($users->lastPage() > 0)
                                     @for ($i = 1 ; $i <= $users->lastPage() ; $i++)
                                         <li class="page-item {{ ($users->currentPage() == $i)? 'active':'' }} ">
                                             <a class="page-link" id="next-page-link" href="{{ $users->url($i) }}" rel="next">{{ $i }}</a>
@@ -99,7 +101,7 @@
 								<a class="page-link" id="next-page-link" href="{{ $users->nextPageUrl() }}" rel="next">></a>
 							</li>
 						</ul>
-					</nav> --}}
+					</nav>
 
 				</div>
 			</div>

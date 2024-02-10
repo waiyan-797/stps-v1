@@ -312,7 +312,7 @@
 							<button class="btn btn-primary " type="submit">Update</button>
 						</div>
 						<div class="col-md-1 row m-0 mb-3 pe-1">
-							<a class="btn btn-dark " href="{{ route('user.index') }}">Cancel</a>
+							<a class="btn btn-dark " href="{{ route('users.index') }}">Cancel</a>
 						</div>
 					</div>
 				</form>

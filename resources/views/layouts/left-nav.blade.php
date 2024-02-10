@@ -65,7 +65,7 @@
 								href="{{ route('users.create') }}">Add Driver</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link @if (url()->current() === route('users.pending')) active @endif "" href="{{ route('users.pending') }}">Pending
+							<a class="nav-link @if (url()->current() === route('users.pending')) active @endif " href="{{ route('users.pending') }}">Pending
 								Driver</a>
 						</li>
 						<li class="nav-item">
@@ -100,11 +100,11 @@
 				<div class="collapse" id="customer-management-nav-dropdown">
 					<ul class="nav nav-pills flex-column">
 						<li class="nav-item">
-							<a class="nav-link  @if (url()->current() === route('users.index')) active @endif " href="{{ route('users.index') }}"
+							<a class="nav-link  @if (url()->current() === route('customers.index')) active @endif " href="{{ route('customers.index') }}"
 								href="{{ route('users.index') }}">All Customer</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link  @if (url()->current() === route('users.create')) active @endif " href="{{ route('users.create') }}"
+							<a class="nav-link  @if (url()->current() === route('customers.create')) active @endif " href="{{ route('customers.create') }}"
 								href="{{ route('users.create') }}">Add Customer</a>
 						</li>
 						
@@ -265,6 +265,10 @@
 			if ($('#driver-management-nav-dropdown .nav-link').hasClass('active')) {
 				// Show the collapse
 				$('#driver-management-nav-dropdown').collapse('show');
+			}
+			if ($('#customer-management-nav-dropdown .nav-link').hasClass('active')) {
+				// Show the collapse
+				$('#customer-management-nav-dropdown').collapse('show');
 			}
 			if ($('#wallet-nav-dropdown .nav-link').hasClass('active')) {
 				// Show the collapse

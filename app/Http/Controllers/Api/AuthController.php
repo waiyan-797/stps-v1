@@ -27,11 +27,11 @@ class AuthController extends Controller
             'driving_license' => 'nullable|string|unique:users,driving_license|max:255',
             'vehicle_model' => 'nullable|string|max:255',
             'vehicle_plate_no' => 'nullable|string|unique:vehicles,vehicle_plate_no|max:255',
-            // 'front_nrc_image' => 'nullable|image',
-            // 'back_nrc_image' => 'nullable|image',
-            // 'front_license_image' => 'nullable|image',
-            // 'back_license_image' => 'nullable|image',
-            // 'vehicle_image' => 'nullable|image'
+            'front_nrc_image' => 'nullable|image',
+            'back_nrc_image' => 'nullable|image',
+            'front_license_image' => 'nullable|image',
+            'back_license_image' => 'nullable|image',
+            'vehicle_image' => 'nullable|image'
         ]);
 
         if ($validator->fails()) {
@@ -143,5 +143,39 @@ class AuthController extends Controller
         $request->user()->tokens()->delete();
         $response = ['message' => ['You have been successfully logged out!']];
         return response($response, 200);
+    }
+
+
+    // customer register 
+    public function cusregister(Request $request){
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'phone' => 'required|string|unique:users,phone|max:255',
+            'password' => ['required', 'string', 'min:8', 'max:255'],
+            'email' => 'nullable|email|unique:users,email|max:255',
+            'birth_date' => 'nullable',
+            'address' => 'nullable|string|max:255',
+            
+        ]);
+
+        if ($validator->fails()) {
+            return response(['message' => $validator->errors()->all()], 422);
+        }
+
+        $user = User::create([
+            'name' => $request->name,
+            'phone' => $request->phone,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'status' => 'active',
+            'remember_token' => Str::random(10)
+        ])->assignRole('customer');
+        $user->driver_id = sprintf('%04d', $user->id - 1);
+        $user->save();
+
+        $token = $user->createToken($user->email . '_' . now(), [$user->roles->first()->name]);
+
+        return response(['token' => $token], 200);
+
     }
 }

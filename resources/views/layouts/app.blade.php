@@ -45,6 +45,21 @@
 			loader.style.display = "none";
 			window.scrollTo(0, 0);
 		}, );
+
+		const socket = new WebSocket('ws://127.0.0.1:8000');
+
+		socket.onopen = function(event) {
+			console.log('WebSocket connection established.');
+		};
+
+		socket.onmessage = function(event) {
+			const data = JSON.parse(event.data);
+			if (data.event === 'locationUpdated') {
+				// Handle location update
+				console.log('Location update received:', data);
+			}
+		};
+
 	</script>
 	@stack('script')
 </body>

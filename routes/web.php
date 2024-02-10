@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Backend\ChangeLogController;
+use App\Http\Controllers\Backend\CustomerController;
 use App\Http\Controllers\Backend\CustomNotificationController;
 use App\Http\Controllers\Backend\FeeController;
 use App\Http\Controllers\Backend\IncomeSummaryController;
@@ -11,7 +12,7 @@ use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-
+use Illuminate\Support\Facades\Broadcast;
 
 /*
 |--------------------------------------------------------------------------
@@ -89,4 +90,19 @@ Route::middleware(['auth', 'role:admin|staff'])->group(function () {
 
     Route::get('/notification', [CustomNotificationController::class, 'index'])->name('notification.index');
     Route::post('/notification', [CustomNotificationController::class, 'sendCustomNotification'])->name('notification.send');
+
+    // customer route  
+    Route::get('/customers', [CustomerController::class, 'index'])->name('customers.index');
+    Route::get('/customers/create', [CustomerController::class, 'create'])->name('customers.create');
+    Route::post('/customers/create', [CustomerController::class, 'store'])->name('customers.store');
+    Route::get('/customers/edit/{user}', [CustomerController::class, 'edit'])->name('customers.edit');
+    Route::post('/customers/update/{id}', [CustomerController::class, 'update'])->name('customers.update');
+    Route::get('/customers/destroy/{id}', [CustomerController::class, 'destroy'])->name('customers.destroy');
+    Route::get('/customers/search', [CustomerController::class, 'search'])->name('customers.search');
+    Route::post('/customers/profile/{user}', [CustomerController::class, 'profile'])->name('customers.update');
+
+
+});
+Route::get('/pusher',function(){
+    return view('pusher');
 });

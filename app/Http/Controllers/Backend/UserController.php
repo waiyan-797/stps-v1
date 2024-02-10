@@ -190,7 +190,8 @@ class UserController extends Controller
         // save user images to database
         $userImage->save();
 
-        return redirect()->route('user.index', ['user' => $user]);
+        // return redirect()->route('user.index', ['user' => $user]);
+        return redirect(route('users.index'));
     }
 
     public function show(User $user)
@@ -339,7 +340,7 @@ class UserController extends Controller
         //     $vehicle->vehicle_image_url = $vehicleImageName;
         // }
         $vehicle->save();
-        return redirect()->route('user.index', ['user' => $user]);
+        return redirect()->route('users.index', ['user' => $user]);
     }
 
     public function destroy(User $user)
@@ -370,7 +371,7 @@ class UserController extends Controller
         }
         $user->tokens()->delete();
         $user->delete();
-        return redirect()->route('user.index');
+        return redirect()->route('users.index');
     }
 
     public function search(Request $request)

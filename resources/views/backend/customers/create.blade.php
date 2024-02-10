@@ -4,17 +4,17 @@
 	<div class="container p-5">
 		<div class="row">
 			<div class="col-md-12">
-				<form method="POST" action="{{ route('users.store') }}" enctype="multipart/form-data">
+				<form method="POST" action="{{ route('customers.store') }}" enctype="multipart/form-data">
 					@csrf
 					<div class="row">
 						<div class="col-md-6">
 							<div class=" mb-3">
-								<label class="form-label" for="name">
-									<span class="text-danger">*</span>{{ __('Username') }}
+								<label class="form-label" for="first_name">
+									<span class="text-danger">*</span>{{ __('First Name') }}
 								</label>
-								<input class="form-control @error('name') is-invalid @enderror" id="name" name="name" type="text"
-									value="{{ old('name') }}" required autocomplete="name" autofocus>
-								@error('name')
+								<input class="form-control @error('first_name') is-invalid @enderror" id="first_name" name="first_name" type="text"
+									value="{{ old('first_name') }}" required autocomplete="first_name" autofocus>
+								@error('first_name')
 									<div class="invalid-feedback">
 										{{ $message }}
 									</div>
@@ -44,45 +44,25 @@
 									</div>
 								@enderror
 							</div>
-							<div class="mb-3">
-								<label class="form-label" for="birth_date">{{ __('Birth Date') }}</label>
-								<input class="form-control @error('birth_date') is-invalid @enderror" id="birth_date" name="birth_date"
-									type="date" value="{{ old('birth_date') }}" autocomplete="birth_date">
-								@error('birth_date')
-									<div class="invalid-feedback">
-										{{ $message }}
-									</div>
-								@enderror
-							</div>
+							
 
 						</div>
 						<div class="col-md-6">
 							<div class="row">
 								<div class=" mb-3">
-									<label class="form-label" for="driving_license">
-										<span class="text-danger">*</span>{{ __('Driving License') }}
+									<label class="form-label" for="last_name">
+										<span class="text-danger">*</span>{{ __('Last Name') }}
 									</label>
-									<input class="form-control @error('driving_license') is-invalid @enderror" id="driving_license"
-										name="driving_license" type="text" value="{{ old('driving_license') }}" required
-										autocomplete="driving_license" autofocus>
-									@error('driving_license')
+									<input class="form-control @error('last_name') is-invalid @enderror" id="last_name"
+										name="last_name" type="text" value="{{ old('last_name') }}" required
+										autocomplete="last_name" autofocus>
+									@error('last_name')
 										<div class="invalid-feedback">
 											{{ $message }}
 										</div>
 									@enderror
 								</div>
-								<div class=" mb-3">
-									<label class="form-label" for="nrc_no">
-										<span class="text-danger">*</span>{{ __('NRC Number') }}
-									</label>
-									<input class="form-control @error('nrc_no') is-invalid @enderror" id="nrc_no" name="nrc_no" type="text"
-										value="{{ old('nrc_no') }}" required autocomplete="nrc_no" autofocus>
-									@error('nrc_no')
-										<div class="invalid-feedback">
-											{{ $message }}
-										</div>
-									@enderror
-								</div>
+								
 								<div class=" mb-3">
 									<label class="form-label" for="password"><span class="text-danger">*</span>{{ __('Password') }}</label>
 									<input class="form-control" id="password" name="password" type="password">
@@ -121,148 +101,7 @@
 							@enderror
 						</div>
 					</div>
-					<div class="row align-items-end mb-3">
-						<div class="col-md-6 mb-3">
-							<label class="form-label" for="vehicle_plate_no">{{ __('Vehicle Plate No') }}</label>
-							<input class="form-control @error('vehicle_plate_no') is-invalid @enderror" id="vehicle_plate_no"
-								name="vehicle_plate_no" type="text" value="{{ old('vehicle_plate_no') }}"
-								autocomplete="vehicle_plate_no">
-							@error('vehicle_plate_no')
-								<div class="invalid-feedback">
-									{{ $message }}
-								</div>
-							@enderror
-
-						</div>
-						<div class="col-md-6 mb-3">
-							<label class="form-label" for="vehicle_model">{{ __('Vehicle Model') }}</label>
-							<input class="form-control @error('vehicle_model') is-invalid @enderror" id="vehicle_model"
-								name="vehicle_model" type="text" value="{{ old('vehicle_model') }}" autocomplete="vehicle_model">
-							@error('vehicle_model')
-								<div class="invalid-feedback">
-									{{ $message }}
-								</div>
-							@enderror
-						</div>
-						{{-- <div class="col-md-6">
-							<div class="row m-0 justify-content-center">
-								<div class="mt-2 col-md-8" id="profile_image-preview-container">
-
-									<img class="img-fluid rounded" id="profile_image-preview" src="#" alt="Preview"
-										style="display:none;">
-								</div>
-								<label class="form-label" for="profile_image">{{ __('Profile Photo') }}</label>
-								<div class="input-group p-0">
-									<input class="form-control" id="profile_image" name="profile_image" type="file" accept="image/*">
-									<button class="btn btn-danger" id="profile_image-cancel-btn" type="button"
-										style="display:none;">Cancel</button>
-								</div>
-								@error('vehicle_image')
-									<span class="invalid-feedback" role="alert">
-										<strong>{{ $message }}</strong>
-									</span>
-								@enderror
-							</div>
-						</div>
-						<div class="col-md-6">
-							<div class="row m-0 justify-content-center">
-								<div class="mt-2 col-md-8" id="vehicle_image-preview-container">
-
-									<img class="img-fluid rounded" id="vehicle_image-preview" src="#" alt="Preview"
-										style="display:none;">
-								</div>
-								<label class="form-label" for="vehicle_image">{{ __('Vehicle Photo') }}</label>
-								<div class="input-group p-0">
-									<input class="form-control" id="vehicle_image" name="vehicle_image" type="file" accept="image/*">
-									<button class="btn btn-danger" id="vehicle_image-cancel-btn" type="button"
-										style="display:none;">Cancel</button>
-								</div>
-								@error('vehicle_image')
-									<span class="invalid-feedback" role="alert">
-										<strong>{{ $message }}</strong>
-									</span>
-								@enderror
-							</div>
-						</div> --}}
-					</div>
-					{{-- <div class="row align-items-end mb-3">
-						<div class="col-md-6">
-							<div class="row m-0 justify-content-center ">
-								<div class="mt-2 col-md-8" id="front_nrc-preview-container">
-									<img class="img-fluid rounded" id="front_nrc-preview" src="#" alt="Preview" style="display:none;">
-								</div>
-								<label class="form-label" for="front_nrc">{{ __('Front NRC') }}</label>
-								<div class="input-group p-0">
-									<input class="form-control" id="front_nrc" name="front_nrc" type="file" accept="image/*">
-									<button class="btn btn-danger" id="front_nrc-cancel-btn" type="button"
-										style="display:none;">cancel</button>
-								</div>
-								@error('front_nrc')
-									<span class="invalid-feedback" role="alert">
-										<strong>{{ $message }}</strong>
-									</span>
-								@enderror
-							</div>
-						</div>
-						<div class="col-md-6">
-							<div class="row m-0 justify-content-center">
-								<div class="mt-2 col-md-8" id="back_nrc-preview-container">
-									<img class="img-fluid rounded" id="back_nrc-preview" src="#" alt="Preview" style="display:none;">
-								</div>
-								<label class="form-label" for="back_nrc">{{ __('Back NRC') }}</label>
-								<div class="input-group p-0">
-									<input class="form-control" id="back_nrc" name="back_nrc" type="file" accept="image/*">
-									<button class="btn btn-danger" id="back_nrc-cancel-btn" type="button" style="display:none;">Cancel</button>
-								</div>
-								@error('back_nrc')
-									<span class="invalid-feedback" role="alert">
-										<strong>{{ $message }}</strong>
-									</span>
-								@enderror
-							</div>
-						</div>
-						<div class="col-md-6">
-							<div class="row m-0 justify-content-center">
-								<div class="mt-2 col-md-8" id="front_license-preview-container">
-
-									<img class="img-fluid rounded" id="front_license-preview" src="#" alt="Preview"
-										style="display:none;">
-								</div>
-								<label class="form-label" for="front_license">{{ __('Front License') }}</label>
-								<div class="input-group p-0">
-									<input class="form-control" id="front_license" name="front_license" type="file" accept="image/*">
-									<button class="btn btn-danger" id="front_license-cancel-btn" type="button"
-										style="display:none;">cancel</button>
-								</div>
-								@error('front_license')
-									<span class="invalid-feedback" role="alert">
-										<strong>{{ $message }}</strong>
-									</span>
-								@enderror
-							</div>
-						</div>
-						<div class="col-md-6">
-							<div class="row m-0 justify-content-center">
-								<div class="mt-2 col-md-8" id="back_license-preview-container">
-
-									<img class="img-fluid rounded" id="back_license-preview" src="#" alt="Preview"
-										style="display:none;">
-								</div>
-								<label class="form-label" for="back_license">{{ __('Back License') }}</label>
-								<div class="input-group p-0">
-									<input class="form-control" id="back_license" name="back_license" type="file" accept="image/*">
-									<button class="btn btn-danger" id="back_license-cancel-btn" type="button" style="display:none;">
-										cancel
-									</button>
-								</div>
-								@error('back_license')
-									<span class="invalid-feedback" role="alert">
-										<strong>{{ $message }}</strong>
-									</span>
-								@enderror
-							</div>
-						</div>
-					</div> --}}
+					
 					<div class="row mt-3">
 						<div class="col-md-1 row m-0 mb-3 pe-lg-1">
 							<button class="btn btn-danger " type="submit">Create</button>
@@ -282,104 +121,6 @@
 		integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ=="
 		crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script>
-		// Front NRC Image Preview
-		$("#front_nrc").change(function() {
-			const reader = new FileReader();
-			reader.onload = function() {
-				$("#front_nrc-preview").attr("src", reader.result).show();
-				$("#front_nrc-cancel-btn").show();
-			};
-			reader.readAsDataURL(this.files[0]);
-		});
-
-		// Front NRC Image Cancel
-		$("#front_nrc-cancel-btn").click(function() {
-			$("#front_nrc").val("");
-			$("#front_nrc-preview").hide();
-			$("#front_nrc-cancel-btn").hide();
-		});
-
-		// Back NRC Image Preview
-		$("#back_nrc").change(function() {
-			const reader = new FileReader();
-			reader.onload = function() {
-				$("#back_nrc-preview").attr("src", reader.result).show();
-				$("#back_nrc-cancel-btn").show();
-			};
-			reader.readAsDataURL(this.files[0]);
-		});
-
-		// Back NRC Image Cancel
-		$("#back_nrc-cancel-btn").click(function() {
-			$("#back_nrc").val("");
-			$("#back_nrc-preview").hide();
-			$("#back_nrc-cancel-btn").hide();
-		});
-
-		// Front Licence Image Preview
-		$("#front_license").change(function() {
-			const reader = new FileReader();
-			reader.onload = function() {
-				$("#front_license-preview").attr("src", reader.result).show();
-				$("#front_license-cancel-btn").show();
-			};
-			reader.readAsDataURL(this.files[0]);
-		});
-
-		// Front Licence Image Cancel
-		$("#front_license-cancel-btn").click(function() {
-			$("#front_license").val("");
-			$("#front_license-preview").hide();
-			$("#front_license-cancel-btn").hide();
-		});
-
-		// Back Licence Image Preview
-		$("#back_license").change(function() {
-			const reader = new FileReader();
-			reader.onload = function() {
-				$("#back_license-preview").attr("src", reader.result).show();
-				$("#back_license-cancel-btn").show();
-			};
-			reader.readAsDataURL(this.files[0]);
-		});
-
-		// Back Licence Image Cancel
-		$("#back_license-cancel-btn").click(function() {
-			$("#back_license").val("");
-			$("#back_license-preview").hide();
-			$("#back_license-cancel-btn").hide();
-		});
-
-		// Back Licence Image Preview
-		$("#profile_image").change(function() {
-			const reader = new FileReader();
-			reader.onload = function() {
-				$("#profile_image-preview").attr("src", reader.result).show();
-				$("#profile_image-cancel-btn").show();
-			};
-			reader.readAsDataURL(this.files[0]);
-		})
-		// Back Licence Image Cancel
-		$("#profile_image-cancel-btn").click(function() {
-			$("#profile_image").val("");
-			$("#profile_image-preview").hide();
-			$("#profile_image-cancel-btn").hide();
-		});
-
-		// Vehicle Image Preview
-		$("#vehicle_image").change(function() {
-			const reader = new FileReader();
-			reader.onload = function() {
-				$("#vehicle_image-preview").attr("src", reader.result).show();
-				$("#vehicle_image-cancel-btn").show();
-			};
-			reader.readAsDataURL(this.files[0]);
-		})
-		// Vehicle Image Cancel
-		$("#vehicle_image-cancel-btn").click(function() {
-			$("#vehicle_image").val("");
-			$("#vehicle_image-preview").hide();
-			$("#vehicle_image-cancel-btn").hide();
-		});
+		
 	</script>
 @endpush
