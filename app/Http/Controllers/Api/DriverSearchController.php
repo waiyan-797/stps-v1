@@ -13,8 +13,8 @@ use Pusher\Pusher;
 
 class DriverSearchController extends Controller
 {
-    public function searchDriver(){
-        $trip = Trip::find(6);
+    public function searcTripnearhDriver(){
+        $trip = Trip::find(3);
         
 
        
@@ -23,19 +23,19 @@ class DriverSearchController extends Controller
         $nearestDriver = $this->searchNearbyDrivers($trip->cartype,$radius);
 
 
-        // if (!$nearestDriver) {
-        //     $radius = 3; // Extend radius to 3 km
-        //     $nearestDriver = $this->searchNearbyDrivers($trip->cartype,$radius);
-        // }
+        if (!$nearestDriver) {
+            $radius = 3; // Extend radius to 3 km
+            $nearestDriver = $this->searchNearbyDrivers($trip->cartype,$radius);
+        }
 
-        // if ($nearestDriver) {
-        //     // $trip->driver_id = $nearestDriver->id;
-        //     // $trip->save();
-        //     // broadcast(new BookingEvent($nearestDriver));
-        //     return response()->json($nearestDriver);
-        // } else {
-        //     return response()->json(['message' => 'No nearby drivers found'], 404);
-        // }
+        if ($nearestDriver) {
+            $trip->driver_id = $nearestDriver->id;
+            $trip->save();
+            // broadcast(new BookingEvent($nearestDriver));
+            return response()->json($nearestDriver);
+        } else {
+            return response()->json(['message' => 'No nearby drivers found'], 404);
+        }
 
            
             return response()->json($trip);

@@ -86,7 +86,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/car/type',[DriverLocationController::class,'cartype']);
     Route::get('/fee', [FeeController::class, 'index']);
     Route::apiResource('/trip', TripController::class, array("as" => "api"));
-    Route::get('driver/search',[DriverSearchController::class,'searchDriver']);
     
 
     // booking 
@@ -97,6 +96,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     // driver and customer 
     Route::post('trip/status/update/{id}',[TripController::class,'tripStatusupdate']);
+
+
+
+
+    // test 
+    Route::get('driver/search',[DriverSearchController::class,'searcTripnearhDriver']);
 
 
 });

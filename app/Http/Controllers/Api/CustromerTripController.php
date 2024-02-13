@@ -28,24 +28,24 @@ class CustromerTripController extends Controller
             $data = [
                 "id"=> $trip->id,
                 "user_id" => $trip->user_id,
-                "distance"=> "34.63",
-                "duration"=> "3.45",
-                "waiting_time"=> "0",
-                "normal_fee"=> "3000",
-                "waiting_fee"=>  "0",
-                "extra_fee"=> "3888",
-                "total_cost"=> "4334",
-                "start_lat"=> 78.2172,
-                "start_lng"=> 61.4063,
-                "end_lat"=> "83.3445",
-                "end_lng"=>  null,
-                "status"=> "pending",
-                "start_address"=>  null,
-                "end_address"=>  null,
+                "distance"=> $trip->distance,
+                "duration"=> $trip->duration,
+                "waiting_time"=> $trip->waiting_time,
+                "normal_fee"=> $trip->normal_fee,
+                "waiting_fee"=>  $trip->waiting_fee,
+                "extra_fee"=> $trip->extra_fee,
+                "total_cost"=> $trip->total_cost,
+                "start_lat"=> $trip->start_lat,
+                "start_lng"=> $trip->start_lng,
+                "end_lat"=> $trip->end_lat,
+                "end_lng"=>  $trip->end_lng,
+                "status"=> $trip->status,
+                "start_address"=>  $trip->start_address,
+                "end_address"=>  $trip->end_address,
                 "driver"=> $driver,
-                "cartype"=> "2",
-                "created_at"=>  "2024-02-03T05:34:28.000000Z",
-                "updated_at"=>  "2024-02-11T12:58:09.000000Z"
+                "cartype"=> $trip->cartype,
+                "created_at"=>  $trip->created_at,
+                "updated_at"=>  $trip->created_at
             ];
 
                 return response()->json($data);
@@ -260,18 +260,36 @@ class CustromerTripController extends Controller
     }
 
     private function searchNearbyDrivers($request,$radius){
-        $latitude = 27.533;
-        $longitude = 22.733;
-        $lat = $request->start_lat;
-        $lng = $request->start_lng;
+        // $latitude = 27.533;
+        // $longitude = 22.733;
+        $latitude = $request->start_lat;
+        $longitude = $request->start_lng;
         
                 
         $radius = $radius;
+      
 
 
         // $drivers = User::where('available', true)->whereBetween('lat', [$lower_latitude, $upper_latitude])->whereBetween('lng', [$lower_longitude, $upper_longitude])->get();
-        $nearbyDrivers = User::where('available', true)
-        ->where('status','active')
+        // $nearbyDrivers = User::role('user')
+        // ->where('available', true)
+        // ->where('status','active')
+        // ->selectRaw(
+        //     'id, ( 6371 * acos( cos( radians(?) ) *
+        //       cos( radians( lat ) )
+        //       * cos( radians( lng ) - radians(?)
+        //       ) + sin( radians(?) ) *
+        //       sin( radians( lat ) ) )
+        //     ) AS distance', [$latitude, $longitude, $latitude])
+        // ->having('distance', '<=', $radius)
+        // ->orderBy('distance')
+        // ->first();
+        
+        $types = User::role('user')
+        ->whereHas('vehicle', function ($query) {
+            $query->whereJsonContains('type', 1);
+        })
+        ->with('vehicle')
         ->selectRaw(
             'id, ( 6371 * acos( cos( radians(?) ) *
               cos( radians( lat ) )
@@ -279,14 +297,12 @@ class CustromerTripController extends Controller
               ) + sin( radians(?) ) *
               sin( radians( lat ) ) )
             ) AS distance', [$latitude, $longitude, $latitude])
-        ->having('distance', '<=', $radius)
-        ->orderBy('distance')
-        ->first();
-        
-       
+            ->where('available', true)->where('status', 'pending')->get();
+    
+    $nearbyDriver = $types->first();
 
-        if ($nearbyDrivers) {
-            return  $nearbyDrivers;
+        if ($nearbyDriver) {
+            return  $nearbyDriver;
             
         }
     }

@@ -23,10 +23,10 @@ return new class extends Migration
             $table->decimal('waiting_fee', 8, 0)->nullable();
             $table->decimal('extra_fee', 8, 0)->nullable();
             $table->decimal('total_cost', 8, 0)->nullable();
-            $table->double('start_lat')->nullable();
-            $table->double('start_lng')->nullable();
-            $table->double('end_lat')->nullable();
-            $table->double('end_lng')->nullable();
+            $table->decimal('lat',10,8)->nullable();
+            $table->decimal('lng',11,8)->nullable();
+            $table->decimal('end_lat',10,8)->nullable();
+            $table->decimal('end_lng',11,8)->nullable();
             $table->enum('status',['pending','accepted','canceled','completed'])->default('pending');
             $table->string('start_address')->nullable();
             $table->string('end_address')->nullable();

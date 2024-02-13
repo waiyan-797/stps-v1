@@ -132,12 +132,12 @@ class UserController extends Controller
         if ($request->has('vehicle_model')) {
             $vehicle->vehicle_model = $request->vehicle_model;
         }
-        // if ($request->hasFile('vehicle_image')) {
-        //     $vehicleImage = $request->file('vehicle_image');
-        //     $vehicleImageName = time() . '.' . $vehicleImage->getClientOriginalExtension();
-        //     $vehicleImage->storeAs('uploads/images/vehicles', $vehicleImageName);
-        //     $vehicle->vehicle_image_url = $vehicleImageName;
-        // }
+        if ($request->hasFile('vehicle_image')) {
+            $vehicleImage = $request->file('vehicle_image');
+            $vehicleImageName = time() . '.' . $vehicleImage->getClientOriginalExtension();
+            $vehicleImage->storeAs('uploads/images/vehicles', $vehicleImageName);
+            $vehicle->vehicle_image_url = $vehicleImageName;
+        }
         $vehicle->save();
 
         $validateImage = $request->validate([
@@ -152,20 +152,20 @@ class UserController extends Controller
         $userImage->user_id = $user->id;
 
         // // upload and save profile image
-        // if ($request->hasFile('profile_image')) {
-        //     $profileImage = $request->file('profile_image');
-        //     $profileImageName = time() . '.' . $profileImage->getClientOriginalExtension();
-        //     $profileImage->storeAs('uploads/images/profiles', $profileImageName);
-        //     $userImage->profile_image = $profileImageName;
-        // }
+        if ($request->hasFile('profile_image')) {
+            $profileImage = $request->file('profile_image');
+            $profileImageName = time() . '.' . $profileImage->getClientOriginalExtension();
+            $profileImage->storeAs('uploads/images/profiles', $profileImageName);
+            $userImage->profile_image = $profileImageName;
+        }
 
         // upload and save front NRC image
-        // if ($request->hasFile('front_nrc')) {
-        //     $frontNrcImage = $request->file('front_nrc');
-        //     $frontNrcImageName = time() . '.' . $frontNrcImage->getClientOriginalExtension();
-        //     $frontNrcImage->storeAs('uploads/images/front_nrcs', $frontNrcImageName);
-        //     $userImage->front_nrc_image = $frontNrcImageName;
-        // }
+        if ($request->hasFile('front_nrc')) {
+            $frontNrcImage = $request->file('front_nrc');
+            $frontNrcImageName = time() . '.' . $frontNrcImage->getClientOriginalExtension();
+            $frontNrcImage->storeAs('uploads/images/front_nrcs', $frontNrcImageName);
+            $userImage->front_nrc_image = $frontNrcImageName;
+        }
 
         // // upload and save back NRC image
         // if ($request->hasFile('back_nrc')) {
