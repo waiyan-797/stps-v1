@@ -46,8 +46,9 @@ class UserSeeder extends Seeder
                 'address' => $faker->streetAddress(),
                 'nrc_no' => '9/YNG(N)' . rand(111111, 999999),
                 'driving_license' => 'D/' . rand(11111, 99999) . '/10',
-                'lat' => $faker->randomFloat(4, 1, 100),
-                'lng' => $faker->randomFloat(4, 1, 100),
+                'lat' => $faker->latitude($min = -90, $max = 90),
+                'lng' => $faker->longitude($min = -180, $max = 180),
+
                 'balance' => 0,
                 'password' => Hash::make(12345678),
             ]);
@@ -56,8 +57,8 @@ class UserSeeder extends Seeder
             Vehicle::create(['vehicle_plate_no' => 'YNG-' . $faker->numberBetween(11111, 99999),
                 'vehicle_model' => 'BMW-' . $faker->numberBetween(2000, 2020),
                 'user_id' => $user->id,
-                // 'type' => json_encode([$faker->randomElement([1, 2, 3]), $faker->randomElement([1, 2, 3])]),  
-               
+                'type' => json_encode([$faker->randomElement([1,2,3]), $faker->randomElement([1,2,3])]),  
+                
 
             ]);
            

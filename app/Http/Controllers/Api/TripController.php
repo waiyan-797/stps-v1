@@ -153,6 +153,25 @@ class TripController extends Controller
     }
 
 
+    public function tripStatusupdate(Request $request,$id){
+
+        $validator = Validator::make($request->all(), [
+            'status' => 'required',
+            
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 400);
+        }
+        $trip = Trip::findOrFail($id);
+
+        $trip->status = $request->status;
+        $trip->save();
+        return response()->json($trip);
+
+    }
+
+
     // public function store(Request $request)
     // {
     //     $trip = Trip::create($request->all());

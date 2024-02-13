@@ -21,17 +21,14 @@ return new class extends Migration
             $table->decimal('initial_fee', 10, 0);
             $table->decimal('waiting_fee', 10, 0);
             $table->decimal('commission_fee', 10, 0);
+            $table->decimal('standard_fee', 10, 0);
+            $table->decimal('cargo_fee', 10, 0);
+            $table->decimal('plus_fee', 10, 0);
             $table->string('app_link')->nullable();
             $table->timestamps();
         });
 
-        DB::table('systems')->insert([
-            'balance' => 0.00,
-            'normal_fee' => 1000.00,
-            'initial_fee' => 1000.00,
-            'waiting_fee' => 500.00,
-            'commission_fee' => 200.00
-        ]);
+        
     }
 
     /**

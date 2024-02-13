@@ -106,7 +106,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-md-12 mb-3">
+						<div class="col-md-6 mb-3">
 							<label class="form-label" for="address">
 								<span class="text-danger">*</span>{{ __('Address') }}
 							</label>
@@ -120,7 +120,25 @@
 								</div>
 							@enderror
 						</div>
+						<div class="col-md-6 mb-3">
+							<label class="form-label" for="vehicle_plate_no">{{ __('car type') }}</label>
+							 <select name="type[]" id="" multiple class="form-control">
+								<option disabled selected>Choose car type</option>
+
+								@foreach($cartypes as $cartype)
+									<option value="{{$cartype->id}}">{{$cartype->type}}</option>
+								@endforeach
+							 </select>
+							@error('vehicle_plate_no')
+								<div class="invalid-feedback">
+									{{ $message }}
+								</div>
+							@enderror
+
+						</div>
 					</div>
+					
+						
 					<div class="row align-items-end mb-3">
 						<div class="col-md-6 mb-3">
 							<label class="form-label" for="vehicle_plate_no">{{ __('Vehicle Plate No') }}</label>

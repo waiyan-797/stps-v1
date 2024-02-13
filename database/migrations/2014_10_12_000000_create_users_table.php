@@ -25,14 +25,15 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->timestamp('birth_date')->nullable();
             $table->string('address')->nullable();
-            $table->double('lat')->nullable();
-            $table->double('lng')->nullable();
+            $table->decimal('lat',10,8)->nullable();
+            $table->decimal('lng',11,8)->nullable();
             $table->string('nrc_no')->unique()->nullable();
             $table->string('driving_license')->unique()->nullable();
             $table->decimal('balance', 10, 0)->default(0);
             $table->enum('status', ['active', 'pending'])->default('pending');
             $table->string('password');
             $table->string('device_token')->nullable();
+            $table->boolean('available')->default(true);
             $table->rememberToken();
             $table->timestamps();
         });

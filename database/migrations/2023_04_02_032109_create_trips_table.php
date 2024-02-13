@@ -27,10 +27,11 @@ return new class extends Migration
             $table->double('start_lng')->nullable();
             $table->double('end_lat')->nullable();
             $table->double('end_lng')->nullable();
-            $table->enum('status',['pending','accepted','cancelled','completed'])->default('pending');
+            $table->enum('status',['pending','accepted','canceled','completed'])->default('pending');
             $table->string('start_address')->nullable();
             $table->string('end_address')->nullable();
             $table->integer('driver_id')->nullable();
+            $table->enum('cartype',[1,2,3]);
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 

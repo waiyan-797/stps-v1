@@ -31,7 +31,8 @@ class AuthController extends Controller
             'back_nrc_image' => 'nullable|image',
             'front_license_image' => 'nullable|image',
             'back_license_image' => 'nullable|image',
-            'vehicle_image' => 'nullable|image'
+            'vehicle_image' => 'nullable|image',
+            'type' =>'required'
         ]);
 
         if ($validator->fails()) {
@@ -52,6 +53,9 @@ class AuthController extends Controller
 
         $vehicle = new Vehicle();
         $vehicle->user_id = $user->id;
+        $vehicle->type = json_encode($request->type);
+        
+
 
         if ($request->has('vehicle_plate_no')) {
             $vehicle->vehicle_plate_no = $request->vehicle_plate_no;
@@ -59,48 +63,48 @@ class AuthController extends Controller
         if ($request->has('vehicle_model')) {
             $vehicle->vehicle_model = $request->vehicle_model;
         }
-        // if ($request->hasFile('vehicle_image')) {
-        //     $vehicleImage = $request->file('vehicle_image');
-        //     $vehicleImageName = time() . '.' . $vehicleImage->getClientOriginalExtension();
-        //     $vehicleImage->storeAs('uploads/images/vehicles', $vehicleImageName);
-        //     $vehicle->vehicle_image_url = $vehicleImageName;
-        // }
+        if ($request->hasFile('vehicle_image')) {
+            $vehicleImage = $request->file('vehicle_image');
+            $vehicleImageName = time() . '.' . $vehicleImage->getClientOriginalExtension();
+            $vehicleImage->storeAs('uploads/images/vehicles', $vehicleImageName);
+            $vehicle->vehicle_image_url = $vehicleImageName;
+        }
         $vehicle->save();
 
         $userImage = new UserImage();
         $userImage->user_id = $user->id;
 
         // // upload and save front NRC image
-        // if ($request->hasFile('front_nrc_image')) {
-        //     $frontNrcImage = $request->file('front_nrc_image');
-        //     $frontNrcImageName = time() . '.' . $frontNrcImage->getClientOriginalExtension();
-        //     $frontNrcImage->storeAs('uploads/images/front_nrcs', $frontNrcImageName);
-        //     $userImage->front_nrc_image = $frontNrcImageName;
-        // }
+        if ($request->hasFile('front_nrc_image')) {
+            $frontNrcImage = $request->file('front_nrc_image');
+            $frontNrcImageName = time() . '.' . $frontNrcImage->getClientOriginalExtension();
+            $frontNrcImage->storeAs('uploads/images/front_nrcs', $frontNrcImageName);
+            $userImage->front_nrc_image = $frontNrcImageName;
+        }
 
-        // // upload and save back NRC image
-        // if ($request->hasFile('back_nrc_image')) {
-        //     $backNrcImage = $request->file('back_nrc_image');
-        //     $backNrcImageName = time() . '.' . $backNrcImage->getClientOriginalExtension();
-        //     $backNrcImage->storeAs('uploads/images/back_nrcs', $backNrcImageName);
-        //     $userImage->back_nrc_image = $backNrcImageName;
-        // }
+        // upload and save back NRC image
+        if ($request->hasFile('back_nrc_image')) {
+            $backNrcImage = $request->file('back_nrc_image');
+            $backNrcImageName = time() . '.' . $backNrcImage->getClientOriginalExtension();
+            $backNrcImage->storeAs('uploads/images/back_nrcs', $backNrcImageName);
+            $userImage->back_nrc_image = $backNrcImageName;
+        }
 
-        // // upload and save front license image
-        // if ($request->hasFile('front_license_image')) {
-        //     $frontLicenseImage = $request->file('front_license_image');
-        //     $frontLicenseImageName = time() . '.' . $frontLicenseImage->getClientOriginalExtension();
-        //     $frontLicenseImage->storeAs('uploads/images/front_licenses', $frontLicenseImageName);
-        //     $userImage->front_license_image = $frontLicenseImageName;
-        // }
+        // upload and save front license image
+        if ($request->hasFile('front_license_image')) {
+            $frontLicenseImage = $request->file('front_license_image');
+            $frontLicenseImageName = time() . '.' . $frontLicenseImage->getClientOriginalExtension();
+            $frontLicenseImage->storeAs('uploads/images/front_licenses', $frontLicenseImageName);
+            $userImage->front_license_image = $frontLicenseImageName;
+        }
 
-        // // upload and save back license image
-        // if ($request->hasFile('back_license_image')) {
-        //     $backLicenseImage = $request->file('back_license_image');
-        //     $backLicenseImageName = time() . '.' . $backLicenseImage->getClientOriginalExtension();
-        //     $backLicenseImage->storeAs('uploads/images/back_licenses', $backLicenseImageName);
-        //     $userImage->back_license_image = $backLicenseImageName;
-        // }
+        // upload and save back license image
+        if ($request->hasFile('back_license_image')) {
+            $backLicenseImage = $request->file('back_license_image');
+            $backLicenseImageName = time() . '.' . $backLicenseImage->getClientOriginalExtension();
+            $backLicenseImage->storeAs('uploads/images/back_licenses', $backLicenseImageName);
+            $userImage->back_license_image = $backLicenseImageName;
+        }
 
         // save user images to database
         $userImage->save();

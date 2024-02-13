@@ -40,6 +40,7 @@ class TripSeeder extends Seeder
                 'start_lng' => $faker->randomFloat(4, 1, 100),
                 'end_lat' => $faker->randomFloat(4, 1, 100),
                 'end_lng' => $faker->randomFloat(4, 1, 100),
+                'cartype'=> $faker->randomElement([1,2,3]),
                 'created_at' => $date,
                 'updated_at' => $date
             ]);
@@ -57,7 +58,7 @@ class TripSeeder extends Seeder
                 'created_at' => $date,
                 'updated_at' => $date
             ]);
-            $system = System::find(1);
+            $system = System::findOrFail(1);
             $system->balance += $commissionFee;
             $system->save();
             if ($user->id % 3 == 0) {

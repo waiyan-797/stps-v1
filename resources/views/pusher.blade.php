@@ -11,20 +11,38 @@
       cluster: 'ap1'
     });
 
-    // var channel = pusher.subscribe('trip-request-channel');
-    // channel.bind('trip-request-event', function(data) {
-    // //   alert(JSON.stringify(data));\
+   
 
-    //         let trip = JSON.stringify(data)
-    // console.log(trip);
-    // });
 
-    var channel = pusher.subscribe('driver-request-channel');
-    channel.bind('driver-request-event', function(data) {
+    var channel = pusher.subscribe('trip-request-channel');
+    channel.bind('trip-request-event', function(data) {
     //   alert(JSON.stringify(data));\
 
-            let driver = JSON.stringify(data)
-    console.log(driver);
+            let trip = JSON.stringify(data)
+    console.log(trip);
+    });
+
+    // var channel = pusher.subscribe('driver-request-channel');
+    // channel.bind('driver-request-event', function(data) {
+    // //   alert(JSON.stringify(data));\
+
+    //         let driver = JSON.stringify(data)
+    // console.log(driver);
+    // });
+    // var channel = pusher.subscribe('driver-location-request-channel');
+    // channel.bind('driver-location-request-event', function(data) {
+    // //   alert(JSON.stringify(data));\
+
+    //         let driver = JSON.stringify(data)
+    // console.log(driver);
+    // });
+
+    var channel = pusher.subscribe('booking-channel');
+    channel.bind('booking-event', function(data) {
+    //   alert(JSON.stringify(data));\
+
+            let booking = JSON.stringify(data)
+    console.log(booking);
     });
   </script>
 </head>

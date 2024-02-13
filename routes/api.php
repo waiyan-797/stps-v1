@@ -8,8 +8,10 @@ use App\Http\Controllers\Api\DriverLocationController;
 use App\Http\Controllers\Api\FeeController;
 use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\SystemController;
+use App\Http\Controllers\Api\DriverSearchController;
 use App\Http\Controllers\Api\TransactionController;
 use App\Http\Controllers\Api\TripController;
+use App\Http\Controllers\Api\TripStatusController;
 use App\Http\Controllers\Backend\ChangeLogController;
 use App\Http\Controllers\Backend\CustomNotificationController;
 use Illuminate\Support\Facades\Route;
@@ -49,14 +51,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
    
     //routes for fee
-    Route::get('/fee', [FeeController::class, 'index']);
-
-    //routes for trip
-    Route::apiResource('/trip', TripController::class, array("as" => "api"));
-    Route::apiResource('/customer/trip', CustromerTripController::class, array("as" => "api"));
-    Route::post('customer/trip/update/{id}',[CustromerTripController::class,'update']);
-    Route::post('driver/update/{id}', [DriverLocationController::class, 'driverupdate']);
     
+    //routes for trip
+  
+    Route::get('customer/trip/data',[CustromerTripController::class,'index']);
+
     //routes for transactions
     Route::get('/user/transactions', [TransactionController::class, 'index']);
     Route::get('/transactions/{id}', [TransactionController::class, 'show']);
@@ -64,7 +63,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/notification', [NotificationController::class, 'store']);
 
     //routes for balance,initial-fee,commission-fee
-    Route::get('/get-fee', [SystemController::class, 'getFee']);
+    
     Route::get('/initial-fee', [SystemController::class, 'getInitialFee']);
     Route::get('/normal-fee', [SystemController::class, 'getNormalFee']);
     Route::get('/commission-fee', [SystemController::class, 'getCommissionFee']);
@@ -73,7 +72,33 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/store-token', [CustomNotificationController::class, 'storeToken']);
     Route::get('/custom-notification', [NotificationController::class, 'custom_notification']);
 
-  
+    // driver route 
+    Route::get('driver/all', [DriverLocationController::class, 'driverall']);
+    Route::post('driver/update/{id}', [DriverLocationController::class, 'driverupdate']);
+    Route::post('/driver/trip/start/{id}',[TripStatusController::class,'start']);
+    Route::post('/driver/trip/end/{id}',[TripStatusController::class,'end']);
+    Route::get('/driver/trip/cash/{id}',[TripStatusController::class,'cash']);
+    Route::get('extra-fee',[TripStatusController::class,'extraFee']);
+
+
+    // customer route 
+    Route::get('/get-fee', [SystemController::class, 'getFee']);
+    Route::get('/car/type',[DriverLocationController::class,'cartype']);
+    Route::get('/fee', [FeeController::class, 'index']);
+    Route::apiResource('/trip', TripController::class, array("as" => "api"));
+    Route::get('driver/search',[DriverSearchController::class,'searchDriver']);
+    
+
+    // booking 
+    Route::apiResource('/customer/trip', CustromerTripController::class, array("as" => "api"));
+    Route::post('customer/trip/update/{id}',[CustromerTripController::class,'update']);
+    Route::get('driver/search/trip/{id}',[DriverSearchController::class,'searchTrip']);
+    Route::post('customer/booking',[CustromerTripController::class,'store']);
+
+    // driver and customer 
+    Route::post('trip/status/update/{id}',[TripController::class,'tripStatusupdate']);
+
+
 });
 
 

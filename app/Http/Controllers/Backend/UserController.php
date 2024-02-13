@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\CarType;
 use App\Models\Transaction;
 use App\Models\Trip;
 use App\Models\User;
@@ -81,7 +82,8 @@ class UserController extends Controller
 
     public function create()
     {
-        return view('backend.users.create');
+        $cartypes = CarType::all();
+        return view('backend.users.create',compact('cartypes'));
     }
 
     public function store(Request $request)
@@ -117,10 +119,12 @@ class UserController extends Controller
         $vehicleData = $request->validate([
             'vehicle_plate_no' => 'required|string|max:255',
             'vehicle_model' => 'required|string|max:255',
+            'type' =>'required'
         ]);
 
         $vehicle = new Vehicle();
         $vehicle->user_id = $user->id;
+        $vehicle->type = json_encode($request->type);
 
         if ($request->has('vehicle_plate_no')) {
             $vehicle->vehicle_plate_no = $request->vehicle_plate_no;
@@ -216,6 +220,8 @@ class UserController extends Controller
 
     public function update(Request $request, User $user)
     {
+
+
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'phone' => 'required|string|max:255',
@@ -225,6 +231,7 @@ class UserController extends Controller
             'address' => 'nullable|string|max:255',
             'nrc_no' => 'nullable|string|max:255',
             'driving_license' => 'nullable|string|max:255',
+            
         ]);
 
         try {
@@ -318,6 +325,7 @@ class UserController extends Controller
         $vehicleData = $request->validate([
             'vehicle_plate_no' => 'required|string|max:255',
             'vehicle_model' => 'required|string|max:255',
+            'type' => 'required'
         ]);
         if ($user->has('vehicle')) {
             $vehicle = Vehicle::where('user_id', $user->id)->get()->first();
@@ -328,7 +336,7 @@ class UserController extends Controller
 
         $vehicle->vehicle_plate_no = $vehicleData['vehicle_plate_no'];
         $vehicle->vehicle_model = $vehicleData['vehicle_model'];
-
+        $vehicle->type = json_encode($vehicleData['type']) ;
         // if ($request->hasFile('vehicle_image')) {
 
         //     $oldImage = $vehicle->vehicle_image_url; //get old image by ID
@@ -339,6 +347,7 @@ class UserController extends Controller
         //     $vehicleImage->storeAs('uploads/images/vehicles', $vehicleImageName);
         //     $vehicle->vehicle_image_url = $vehicleImageName;
         // }
+    
         $vehicle->save();
         return redirect()->route('users.index', ['user' => $user]);
     }
