@@ -121,12 +121,13 @@
 							@enderror
 						</div>
 						<div class="col-md-6 mb-3">
-							<label class="form-label" for="vehicle_plate_no">{{ __('car type') }}</label>
-							 <select name="type[]" id="" multiple class="form-control">
-								<option disabled selected>Choose car type</option>
+							<label class="form-label" for="vehicle_plate_no"><span class="text-danger">*</span>{{ __('Car type') }}</label>
+							 <select name="type[]" id="cartype" multiple class="form-control" placeholder="choose car type">
+								{{-- <option disabled selected>Choose car type</option> --}}
 
-								@foreach($cartypes as $cartype)
-									<option value="{{$cartype->id}}">{{$cartype->type}}</option>
+								@foreach($cartypes as $key=>$cartype)
+									<option {{ in_array($cartype->id, old('type', [])) ? 'selected' : '' }} value="{{ $cartype->id }}" {{$key===0?'selected':''}}>{{ $cartype->type }}</option>
+
 								@endforeach
 							 </select>
 							@error('vehicle_plate_no')
@@ -141,7 +142,7 @@
 						
 					<div class="row align-items-end mb-3">
 						<div class="col-md-6 mb-3">
-							<label class="form-label" for="vehicle_plate_no">{{ __('Vehicle Plate No') }}</label>
+							<label class="form-label" for="vehicle_plate_no"><span class="text-danger">*</span>{{ __('Vehicle Plate No') }}</label>
 							<input class="form-control @error('vehicle_plate_no') is-invalid @enderror" id="vehicle_plate_no"
 								name="vehicle_plate_no" type="text" value="{{ old('vehicle_plate_no') }}"
 								autocomplete="vehicle_plate_no">
@@ -153,7 +154,7 @@
 
 						</div>
 						<div class="col-md-6 mb-3">
-							<label class="form-label" for="vehicle_model">{{ __('Vehicle Model') }}</label>
+							<label class="form-label" for="vehicle_model"><span class="text-danger">*</span>{{ __('Vehicle Model') }}</label>
 							<input class="form-control @error('vehicle_model') is-invalid @enderror" id="vehicle_model"
 								name="vehicle_model" type="text" value="{{ old('vehicle_model') }}" autocomplete="vehicle_model">
 							@error('vehicle_model')
@@ -162,27 +163,27 @@
 								</div>
 							@enderror
 						</div>
-						{{-- <div class="col-md-6">
+						<div class="col-md-6">
 							<div class="row m-0 justify-content-center">
 								<div class="mt-2 col-md-8" id="profile_image-preview-container">
 
 									<img class="img-fluid rounded" id="profile_image-preview" src="#" alt="Preview"
 										style="display:none;">
 								</div>
-								<label class="form-label" for="profile_image">{{ __('Profile Photo') }}</label>
+								<label class="form-label" for="profile_image"><span class="text-danger">*</span>{{ __('Profile Photo') }}</label>
 								<div class="input-group p-0">
-									<input class="form-control" id="profile_image" name="profile_image" type="file" accept="image/*">
+									<input class="form-control @error('profile_image') is-invalid @enderror" id="profile_image" name="profile_image" type="file" accept="image/*">
 									<button class="btn btn-danger" id="profile_image-cancel-btn" type="button"
 										style="display:none;">Cancel</button>
 								</div>
-								@error('vehicle_image')
+								@error('profile_image')
 									<span class="invalid-feedback" role="alert">
 										<strong>{{ $message }}</strong>
 									</span>
 								@enderror
 							</div>
 						</div>
-						<div class="col-md-6">
+						{{-- <div class="col-md-6">
 							<div class="row m-0 justify-content-center">
 								<div class="mt-2 col-md-8" id="vehicle_image-preview-container">
 
@@ -299,7 +300,21 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"
 		integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ=="
 		crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+		{{-- jquery ui  --}}
+
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
 	<script>
+
+			
+				// select form 
+					$('#cartype').select2({
+							closeOnSelect: false
+					});
+		
+			
 		// Front NRC Image Preview
 		$("#front_nrc").change(function() {
 			const reader = new FileReader();

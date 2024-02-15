@@ -48,7 +48,7 @@
 								@endif
 							</td>
 							<td>
-								<a class=" text-decoration-none" href="{{ route('customers.edit', $user) }}">
+								{{-- <a class=" text-decoration-none" href="{{ route('customers.edit', $user) }}">
 									<span class="me-2">
 										<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
 											<path d="M7.33325 14H13.9999" stroke="#524E45" stroke-opacity="0.84" stroke-width="1.5"
@@ -60,7 +60,7 @@
 												stroke-linecap="round" stroke-linejoin="round" />
 										</svg>
 									</span>
-								</a>
+								</a> --}}
 
                                 @role('admin')
                                     <span>

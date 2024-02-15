@@ -23,15 +23,15 @@ return new class extends Migration
             $table->decimal('waiting_fee', 8, 0)->nullable();
             $table->decimal('extra_fee', 8, 0)->nullable();
             $table->decimal('total_cost', 8, 0)->nullable();
-            $table->decimal('lat',10,8)->nullable();
-            $table->decimal('lng',11,8)->nullable();
+            $table->decimal('start_lat',10,8)->nullable();
+            $table->decimal('start_lng',11,8)->nullable();
             $table->decimal('end_lat',10,8)->nullable();
             $table->decimal('end_lng',11,8)->nullable();
             $table->enum('status',['pending','accepted','canceled','completed'])->default('pending');
             $table->string('start_address')->nullable();
             $table->string('end_address')->nullable();
             $table->integer('driver_id')->nullable();
-            $table->enum('cartype',[1,2,3]);
+            $table->integer('cartype')->default(1);
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 

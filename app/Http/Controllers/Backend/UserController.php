@@ -97,6 +97,10 @@ class UserController extends Controller
             'address' => 'nullable|string|max:255',
             'nrc_no' => 'nullable|string|unique:users,nrc_no|max:255',
             'driving_license' => 'nullable|string|unique:users,driving_license|max:255',
+            'profile_image' => 'required|image',
+            'vehicle_plate_no' => 'required|string|max:255',
+            'vehicle_model' => 'required|string|max:255',
+            'type' =>'required'
         ]);
 
         try {
@@ -116,11 +120,11 @@ class UserController extends Controller
             return back()->withErrors($e->getMessage());
         }
 
-        $vehicleData = $request->validate([
-            'vehicle_plate_no' => 'required|string|max:255',
-            'vehicle_model' => 'required|string|max:255',
-            'type' =>'required'
-        ]);
+        // $vehicleData = $request->validate([
+        //     'vehicle_plate_no' => 'required|string|max:255',
+        //     'vehicle_model' => 'required|string|max:255',
+        //     'type' =>'required'
+        // ]);
 
         $vehicle = new Vehicle();
         $vehicle->user_id = $user->id;
@@ -141,7 +145,7 @@ class UserController extends Controller
         $vehicle->save();
 
         $validateImage = $request->validate([
-            'profile_image' => 'nullable|image',
+            'profile_image' => 'required|image',
             'front_nrc_image' => 'nullable|image',
             'back_nrc_image' => 'nullable|image',
             'front_license_image' => 'nullable|image',
@@ -214,8 +218,8 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
-
-        return view('backend.users.edit', compact('user'));
+        $cartypes = CarType::all();
+        return view('backend.users.edit', compact('user','cartypes'));
     }
 
     public function update(Request $request, User $user)
@@ -231,6 +235,11 @@ class UserController extends Controller
             'address' => 'nullable|string|max:255',
             'nrc_no' => 'nullable|string|max:255',
             'driving_license' => 'nullable|string|max:255',
+            'vehicle_plate_no' => 'required|string|max:255',
+            'vehicle_model' => 'required|string|max:255',
+            'type' =>'required',
+            'profile_image' => 'nullable|image',
+
             
         ]);
 

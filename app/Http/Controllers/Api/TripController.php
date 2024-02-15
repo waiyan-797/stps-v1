@@ -163,22 +163,46 @@ class TripController extends Controller
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()], 400);
         }
+        // dd($request);
         $trip = Trip::findOrFail($id);
 
         $trip->status = $request->status;
         $trip->save();
-        return response()->json($trip);
+        $driver = User::findOrFail($trip->driver_id);
+        $data = [
+            'id' => $trip->id,
+            'user_id' => Auth::user()->id,
+            'distance' => $trip->distance,
+            'duration' => $trip->duration,
+            'waiting_time' => $trip->waiting_time,
+            'normal_fee' => $trip->normal_fee,
+            'waiting_fee' => $trip->waiting_fee,
+            'extra_fee' => $trip->extra_fee,
+            'total_cost' => $trip->total_cost,
+            'start_lat' => $trip->start_lat,
+            'start_lng' => $trip->start_lng,
+            'end_lat' => $trip->end_lat,
+            'end_lng' => $trip->end_lng,
+            'status' => $request->status,
+            'driver_id' =>$driver,
+            'cartype' =>$trip->cartype,
+
+             
+        ];
+        return response()->json($data);
 
     }
 
 
-    // public function store(Request $request)
-    // {
-    //     $trip = Trip::create($request->all());
+    public function store(Request $request)
+    {
+        $trip = Trip::create($request->all());
 
-    //     // Broadcast the new trip data using Laravel WebSockets
-    //     broadcast(new TripCreated($trip))->toOthers();
+        // Broadcast the new trip data using Laravel WebSockets
+        // broadcast(new TripCreated($trip))->toOthers();
 
-    //     return response()->json($trip, 201);
-    // }
+        
+
+        return response()->json($trip, 201);
+    }
 }

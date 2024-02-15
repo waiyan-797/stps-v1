@@ -16,5 +16,9 @@ class Vehicle extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function cartypes(){
+        return $this->hasMany(CarType::class);
+    }
+
     
 }

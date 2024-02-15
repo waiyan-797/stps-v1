@@ -53,7 +53,7 @@ class AuthController extends Controller
 
         $vehicle = new Vehicle();
         $vehicle->user_id = $user->id;
-        $vehicle->type = json_encode($request->type);
+        $vehicle->type =$request->type;
         
 
 

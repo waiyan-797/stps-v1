@@ -28,6 +28,15 @@ class DriverLocationController extends Controller
         
     }
 
+    public function driverallcustomer(){
+        $driver = User::role('user')->where('available',true)->get();
+        
+        
+        return response()->json($driver);
+       
+        
+    }
+
     public function cartype(){
         $cartypes = CarType::all();
 

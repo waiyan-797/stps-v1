@@ -80,12 +80,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/driver/trip/cash/{id}',[TripStatusController::class,'cash']);
     Route::get('extra-fee',[TripStatusController::class,'extraFee']);
 
-
     // customer route 
     Route::get('/get-fee', [SystemController::class, 'getFee']);
     Route::get('/car/type',[DriverLocationController::class,'cartype']);
     Route::get('/fee', [FeeController::class, 'index']);
     Route::apiResource('/trip', TripController::class, array("as" => "api"));
+    Route::post('/trip/driver/update/{id}',[CustromerTripController::class,'tripindriverid']);
+    Route::get('available/driver/all', [DriverLocationController::class, 'driverallcustomer']);
     
 
     // booking 

@@ -177,6 +177,32 @@
 								@enderror
 							</div>
 						</div>
+						{{-- @dd($user->vehicle->cartypes) --}}
+						<div class="col-md-6  mt-2">
+							<label class="form-label" for="vehicle_plate_no"><span class="text-danger">*</span>{{ __('Car type') }}</label>
+							 <select name="type[]" id="cartype" multiple class="form-control" placeholder="choose car type">
+								{{-- <option disabled selected>Choose car type</option> --}}
+								
+								
+								
+
+								@foreach($cartypes as $key=>$cartype)
+								<option {{ in_array($cartype->id, old('type', [])) ? 'selected' : '' }} value="{{ $cartype->id }}" {{$key===0?'selected':''}}>{{ $cartype->type }}</option>
+
+							@endforeach
+									
+									
+								
+
+								
+							 </select>
+							@error('vehicle_plate_no')
+								<div class="invalid-feedback">
+									{{ $message }}
+								</div>
+							@enderror
+
+						</div>
 						{{--<div class="col-md-6">
 							<div class="row m-0 justify-content-center">
 								<div class="mt-2 col-md-8" id="vehicle_image-preview-container">
@@ -325,8 +351,18 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"
 		integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ=="
 		crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+			{{-- jquery ui  --}}
+
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 	<script>
 
+			// select form 
+			$('#cartype').select2({
+					closeOnSelect: false
+					});
         // profile Image Preview
 		$("#profile_image").change(function() {
 			const reader = new FileReader();
