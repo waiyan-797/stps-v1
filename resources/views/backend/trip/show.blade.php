@@ -45,24 +45,18 @@
                                     </li>
                                 </ul>
                             </div>
-                        <div class="p-3">
-                            {{-- <a class=" form-control btn btn-outline-success mb-4" href="{{route('customers.destroy',$user->id)}}">
+                        {{-- <div class="p-3">
+                            <a class=" form-control btn btn-outline-success mb-4" href="{{ route('users.edit', ['user' => $user]) }}">
                                 Edit
-                            </a> --}}
-                            {{-- <form class="d-block" accept="{{route('customers.destroy',['id'=>$user->id])}}" method="POST">
+                            </a>
+                            <form class="d-block" action="{{ route('users.destroy', $user->id) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
                                 <button class=" form-control btn btn-outline-danger" type="submit">
                                     Delete
                                 </button>
-                            </form> --}}
-                           
-                            @role('admin')
-                            <a class=" form-control btn btn-outline-danger mb-4" href="{{route('customers.destroy',$user->id)}}">
-                                Edit
-                            </a>
-                        @endrole
-                        </div>
+                            </form>
+                        </div> --}}
                     </div>
                 </div>
             </div>
@@ -71,7 +65,34 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-12 mb-3">
-                                
+                                <div class="d-flex justify-content-center w-100">
+                                    <ul class="list-group list-group-flush w-100">
+                                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                            <h6 class="mb-0">Nrc Number</h6>
+                                            <span class="text-muted">{{ $user->nrc_no }}</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                            <h6 class="mb-0">Drivinng License</h6>
+                                            <span class="text-muted">{{ $user->driving_license }}</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                            <h6 class="mb-0">Taxi Model</h6>
+                                            <span class="text-muted">{{ $user->vehicle->vehicle_model }}</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                            <h6 class="mb-0">Plate Number</h6>
+                                            <span class="text-muted">{{ $user->vehicle->vehicle_plate_no }}</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-start flex-wrap">
+                                            <div class="col-md-4">
+                                                <h6 class="mb-0">Address</h6>
+                                            </div>
+                                            <div class="col-md-8 text-end">
+                                                <span class="text-muted ms-auto">{{ $user->address }}</span>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
                                 <div class="d-flex justify-content-between">
                                     <div class="d-flex flex-row gap-2">
                                         <div class=" col-8 bg-primary text-white p-2 rounded text-center">{{ "Balance : ".$user->balance }}</div>
@@ -93,7 +114,7 @@
         </div>
         <div class="col-lg-12">
             <div class="row align-items-stretch">
-                <div class="col-md-6">
+                {{-- <div class="col-md-6">
                     <div class="card mb-3 h-100">
                         <div class="card-body">
                             <span class=""><i class="fa-solid fa-wallet me-2"></i> TOPUP HISTORY</span>
@@ -138,8 +159,8 @@
 
                         </div>
                     </div>
-                </div>
-                <div class="col-md-6">
+                </div> --}}
+                <div class="col-md-12">
                     <div class="card mb-3 h-100">
                         <div class="card-body">
                             <span class=""><i class="fa-sharp fa-solid fa-location-dot me-2"></i> TRIP HISTORY</span>
@@ -149,7 +170,16 @@
                                         <tr>
                                             <th scope="col">NO</th>
                                             <th scope="col">Distance (Km)</th>
-                                            <th scope="col">Total Cost (Ks)</th>
+                                            <th scope="col">Duration (time)</th>
+                                            <th scope="col">Waiting Time</th>
+                                            <th scope="col">Waiting Cost</th>
+                                            <th scope="col">Normal Cost</th>
+                                            <th scope="col">Extra Cost</th>
+                                            <th scope="col">Total Cost</th>
+                                            <th scope="col">Start address</th>
+                                            <th scope="col">End address</th>
+                                            
+
                                             <th scope="col">Date</th>
                                         </tr>
                                     </thead>
@@ -158,8 +188,17 @@
                                             <tr>
                                                 <td class="text-muted">{{ $loop->index + 1 }}</td>
                                                 <td class="text-muted">{{ $trip->distance }}</td>
+                                                <td class="text-muted">{{ $trip->duration }}</td>
+                                                <td class="text-muted">{{ $trip->waiting_time }}</td>
+                                                <td class="text-muted">{{ $trip->waiting_fee }}</td>
+                                                <td class="text-muted">{{ $trip->normal_fee }}</td>
+                                                <td class="text-muted">{{ $trip->extra_fee }}</td>
+
                                                 <td class="text-muted">{{ $trip->total_cost }}</td>
-                                                <td class="text-muted">{{ Carbon\Carbon::parse($trip->created_at)->format('F j,Y') }}</td>
+                                                <td class="text-muted">{{ $trip->start_address }}</td>
+                                                <td class="text-muted">{{ $trip->end_address }}</td>
+
+                                                <td class="text-muted">{{ Carbon\Carbon::parse($trip->created_at)->format('F j,Y H:m,s A') }}</td>
                                             </tr>
                                         @endforeach
                                     </tbody>

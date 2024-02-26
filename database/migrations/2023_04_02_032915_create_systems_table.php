@@ -21,6 +21,7 @@ return new class extends Migration
             $table->decimal('initial_fee', 10, 0);
             $table->decimal('waiting_fee', 10, 0);
             $table->decimal('commission_fee', 10, 0);
+            $table->integer('order_commission_fee')->default(10);
             $table->decimal('standard_fee', 10, 0);
             $table->decimal('cargo_fee', 10, 0);
             $table->decimal('plus_fee', 10, 0);

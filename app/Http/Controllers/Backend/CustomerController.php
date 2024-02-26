@@ -152,4 +152,21 @@ class CustomerController extends Controller
 
         return view('backend.customers.index', compact('users', 'usersCount'));
     }
+
+    
+    public function show($id)
+    {
+
+        // dd($id);
+        $user = User::findOrFail($id);
+        $transactions = $user->transactions()
+            ->where('income_outcome', 'income')->latest()
+            ->paginate(10);
+
+        $tripsQuery = $user->trips();
+        $tripsCount = $tripsQuery->count();
+        $trips = $tripsQuery->latest()->paginate(10);
+
+        return view('backend.customers.show', compact('user', 'transactions', 'trips', 'tripsCount'));
+    }
 }

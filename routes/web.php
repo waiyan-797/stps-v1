@@ -52,7 +52,7 @@ Route::middleware(['auth', 'role:admin|staff'])->group(function () {
         'index', 'store', 'update', 'destroy'
     ]);
     Route::resource('trip', TripController::class)->only([
-        'index', 'update', 'destroy'
+        'index', 'update', 'destroy','show'
     ]);
 
     Route::get('/trips/search', [TripController::class, 'search'])->name('trips.search');
@@ -71,6 +71,7 @@ Route::middleware(['auth', 'role:admin|staff'])->group(function () {
     Route::get('/system/initial-fee', [SystemController::class, 'getInitialFee'])->name('system.initialFee');
     Route::get('/system/waiting-fee', [SystemController::class, 'getWaitingFee'])->name('system.waitingFee');
     Route::get('/system/commission-fee', [SystemController::class, 'getCommissionFee'])->name('system.CommissionFee');
+    Route::get('/system/order-commission-fee', [SystemController::class, 'getOrderCommissionFee'])->name('system.OrderCommissionFee');
 
     // Updates
     Route::post('/system/balance', [SystemController::class, 'updateBalance'])->name('system.update.balence');
@@ -78,6 +79,7 @@ Route::middleware(['auth', 'role:admin|staff'])->group(function () {
     Route::post('/system/initial-fee', [SystemController::class, 'updateInitialFee'])->name('system.update.initialFee');
     Route::post('/system/waiting-fee', [SystemController::class, 'updateWaitingFee'])->name('system.update.waitingFee');
     Route::post('/system/commission-fee', [SystemController::class, 'updateCommissionFee'])->name('system.update.CommissionFee');
+    Route::post('/system/order-commission-fee', [SystemController::class, 'updateOrderCommissionFee'])->name('system.update.OrderCommissionFee');
 
     Route::get('/commission-chart/{range}', [HomeController::class, 'commissionChat'])->name('income.chart');
     Route::get('/topup-chart/{range}', [HomeController::class, 'topupChat'])->name('topup.chart');
@@ -100,9 +102,22 @@ Route::middleware(['auth', 'role:admin|staff'])->group(function () {
     Route::get('/customers/destroy/{id}', [CustomerController::class, 'destroy'])->name('customers.destroy');
     Route::get('/customers/search', [CustomerController::class, 'search'])->name('customers.search');
     Route::post('/customers/profile/{user}', [CustomerController::class, 'profile'])->name('customers.update');
+    Route::get('/customers/show/{id}', [CustomerController::class, 'show'])->name('customers.show');
 
 
+    Broadcast::channel('request-near-driver-all-channel', function ($user) {
+        // Return true to authorize any user to listen to this channel
+        return true;
+    });
 });
 Route::get('/pusher',function(){
     return view('pusher');
 });
+
+// Broadcast::channel('',,function(){
+//     return []
+// });
+
+   
+// Route::get('push-notification', [NotificationController::class, 'index']);
+// Route::post('sendNotification', [NotificationController::class, 'sendNotification'])->name('send.notification');

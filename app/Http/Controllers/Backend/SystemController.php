@@ -46,6 +46,12 @@ class SystemController extends Controller
         $commissionFee = $system->commission_fee;
         return view('backend.fee.commission_fee', ['commissionFee' => $commissionFee]);
     }
+    public function getOrderCommissionFee()
+    {
+        $system = System::find(1);
+        $ordercommissionFee = $system->order_commission_fee;
+        return view('backend.fee.commission_fee', ['commissionFee' => $ordercommissionFee]);
+    }
 
     // Updates
     public function updateBalance(Request $request)
@@ -84,6 +90,14 @@ class SystemController extends Controller
     {
         $system = System::find(1);
         $system->commission_fee = $request->input('commissionFee');
+        $system->save();
+        return redirect()->back()->with('success', 'Commission fee updated successfully!');
+    }
+
+    public function updateOrderCommissionFee(Request $request)
+    {
+        $system = System::find(1);
+        $system->order_commission_fee = $request->input('commissionFee');
         $system->save();
         return redirect()->back()->with('success', 'Commission fee updated successfully!');
     }

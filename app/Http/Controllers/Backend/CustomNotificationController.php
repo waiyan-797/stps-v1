@@ -70,6 +70,7 @@ class CustomNotificationController extends Controller
         }
         // Close connection
         curl_close($ch);
+       
         // FCM response
         return redirect()->route('notification.index')->with('success', 'Notification Sent successfully!');
     }

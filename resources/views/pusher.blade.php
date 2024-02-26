@@ -11,16 +11,39 @@
       cluster: 'ap1'
     });
 
-   
+    // var channel = pusher.subscribe('request-near-driver-all-channel');
+    // channel.bind('request-near-driver-all-event', function(data) {
+    // //   alert(JSON.stringify(data));\
 
+    //         let booking = JSON.stringify(data)
+    // console.log(booking);
+    // });
 
-    var channel = pusher.subscribe('trip-request-channel');
-    channel.bind('trip-request-event', function(data) {
+// const channel = pusher.subscribe('request-near-driver-all-channel');
+
+// // Listen for PONG events
+// channel.bind('pusher:pong', function(data) {
+//   // Handle the PONG event
+//   console.log('PONG event received:', data);
+//   // You can add your own logic here to handle the PONG event
+// });
+
+    var channel = pusher.subscribe('booking-channel');
+    channel.bind('booking-event', function(data) {
     //   alert(JSON.stringify(data));\
 
-            let trip = JSON.stringify(data)
-    console.log(trip);
+            let booking = JSON.stringify(data)
+    console.log(booking);
     });
+
+
+    // var channel = pusher.subscribe('trip-request-channel');
+    // channel.bind('trip-request-event', function(data) {
+    // //   alert(JSON.stringify(data));\
+
+    //         let trip = JSON.stringify(data)
+    // console.log(trip);
+    // });
 
     // var channel = pusher.subscribe('driver-request-channel');
     // channel.bind('driver-request-event', function(data) {
@@ -37,13 +60,7 @@
     // console.log(driver);
     // });
 
-    var channel = pusher.subscribe('booking-channel');
-    channel.bind('booking-event', function(data) {
-    //   alert(JSON.stringify(data));\
-
-            let booking = JSON.stringify(data)
-    console.log(booking);
-    });
+   
   </script>
 </head>
 <body>

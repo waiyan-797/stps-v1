@@ -53,6 +53,20 @@ class TripController extends Controller
         return redirect()->back()->with('success', 'Trip updated successfully');
     }
 
+    public function show($id)
+    {
+        $user = User::findOrFail($id);
+        $transactions = $user->transactions()
+            ->where('income_outcome', 'income')->latest()
+            ->paginate(10);
+            // dd($user);
+
+        $tripsQuery = $user->trips();
+        $tripsCount = $tripsQuery->count();
+        $trips = $tripsQuery->latest()->paginate(10);
+
+        return view('backend.trip.show', compact('user', 'transactions', 'trips', 'tripsCount'));
+    }
 
     public function destroy($id)
     {

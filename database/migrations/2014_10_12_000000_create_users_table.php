@@ -33,6 +33,7 @@ return new class extends Migration
             $table->enum('status', ['active', 'pending'])->default('pending');
             $table->string('password');
             $table->string('device_token')->nullable();
+            $table->string('fcm_token')->nullable();
             $table->boolean('available')->default(true);
             $table->rememberToken();
             $table->timestamps();

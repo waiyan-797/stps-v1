@@ -35,7 +35,7 @@
                             
 							<td>{{ $user->driver_id }}</td>
 							<td>
-								<a class="text-dark text-decoration-none" href="{{ route('users.show', $user->id) }}">{{ $user->name }}</a>
+								<a class="text-dark text-decoration-none" href="{{ route('customers.show', $user->id) }}">{{ $user->name }}</a>
 							</td>
 							<td>{{$user->email}}</td>
 							<td>{{ $user->phone }}</td>

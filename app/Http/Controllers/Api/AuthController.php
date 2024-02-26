@@ -32,7 +32,7 @@ class AuthController extends Controller
             'front_license_image' => 'nullable|image',
             'back_license_image' => 'nullable|image',
             'vehicle_image' => 'nullable|image',
-            'type' =>'required'
+            'type'  =>'nullable'
         ]);
 
         if ($validator->fails()) {
@@ -53,8 +53,14 @@ class AuthController extends Controller
 
         $vehicle = new Vehicle();
         $vehicle->user_id = $user->id;
-        $vehicle->type =$request->type;
-        
+        // $vehicle->type =json_encode("1");
+        if($request->type == null){
+        $vehicle->type =json_encode([1]);
+
+        }else{
+        $vehicle->type =json_encode($request->type);
+
+        }
 
 
         if ($request->has('vehicle_plate_no')) {
@@ -131,7 +137,11 @@ class AuthController extends Controller
         if ($user) {
             if (Hash::check($request->password, $user->password)) {
                 $token = $user->createToken($user->email . '_' . now(), [$user->roles->first()->name]);
+                $user->device_token = $request->fcm_token;
+                $user->save();
                 return response()->json(['token' =>  $token, 'status' => $user->status], 200);
+
+                
             } else {
                 $response = ["message" => ["Password mismatch"]];
                 return response($response, 422);

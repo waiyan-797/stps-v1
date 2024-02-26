@@ -183,6 +183,10 @@
 								href="{{ route('system.CommissionFee') }}">Commission Fee</a>
 						</li>
 						<li class="nav-item">
+							<a class="nav-link @if (url()->current() == route('system.OrderCommissionFee')) active @endif"
+								href="{{ route('system.OrderCommissionFee') }}"> % Commission Fee</a>
+						</li>
+						<li class="nav-item">
 							<a class="nav-link @if (url()->current() == route('fee.index')) active @endif" href="{{ route('fee.index') }}">
 								Extra fees</a>
 						</li>

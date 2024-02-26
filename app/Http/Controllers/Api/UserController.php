@@ -17,6 +17,8 @@ use Illuminate\Support\Facades\Validator;
 class UserController extends Controller
 {
 
+    
+
     public function profile()
     {
         $user = Auth::user();
@@ -215,7 +217,7 @@ class UserController extends Controller
     public function userTrip()
     {
         $user = Auth::user();
-        $trips = Trip::latest()->where('user_id', $user->id)->get();
+        $trips = Trip::latest()->where('driver_id', $user->id)->get();
         return response()->json($trips, 200);
     }
 

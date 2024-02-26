@@ -15,13 +15,14 @@ return new class extends Migration
     {
         Schema::create('trips', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->decimal('distance', 8, 2);
             $table->string('duration');
             $table->string('waiting_time');
             $table->decimal('normal_fee', 8, 0)->nullable();
             $table->decimal('waiting_fee', 8, 0)->nullable();
             $table->decimal('extra_fee', 8, 0)->nullable();
+            $table->decimal('initial_fee', 8, 0)->nullable();
             $table->decimal('total_cost', 8, 0)->nullable();
             $table->decimal('start_lat',10,8)->nullable();
             $table->decimal('start_lng',11,8)->nullable();
@@ -31,9 +32,10 @@ return new class extends Migration
             $table->string('start_address')->nullable();
             $table->string('end_address')->nullable();
             $table->integer('driver_id')->nullable();
-            $table->integer('cartype')->default(1);
+            $table->string('cartype');
             $table->timestamps();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            // $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->nullable();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->nullable();
 
         });
     }
