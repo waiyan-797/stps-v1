@@ -36,7 +36,7 @@ class CustomNotificationController extends Controller
         $url = 'https://fcm.googleapis.com/fcm/send';
         $FcmToken = User::whereNotNull('device_token')->pluck('device_token')->all();
 
-        $serverKey = "AAAAsebg8eM:APA91bFGPk22SqABJrOpFgGzbOVd5L_Qt6_BbfZAhmJLUZsfqHtsPyNghEiREIhI6juPZsRRVDIy8Qm8Y03ER04t3w-wkQqSrJXcR83ooYqGFP-Zm7-CF6Sj9UsS8qPgNJKsuEvQImru";
+        $serverKey = "AAAAFYDzjbw:APA91bHtk8kPufHHYt_EG1HebesEdgWoqEq51Mq0xSE5XBpi_7vBcG7eAAcWUClAiXScaVgb2x56qDCeZ2yb8ln9CwjItVOwt8eYn9Api0ToysWPR5cGhmIymz1Kr3UBrUgjkqV-b3p7";
 
         $data = [
             "registration_ids" => $FcmToken,

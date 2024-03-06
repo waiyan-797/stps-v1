@@ -18,6 +18,7 @@
 			<table class="table table-striped table-hover">
 				<thead class=" table-secondary" style="border-bottom:1px solid #ccc">
 					<tr class="">
+						<th>#</th>
 						<th>Driver ID</th>
 						<th>Driver Name</th>
 						<th>Vehicle number</th>
@@ -30,6 +31,11 @@
 				<tbody class="table-group-divider" style="border-top:10px solid #ffffff">
 					@foreach ($users as $key => $user)
 						<tr class="">
+							<td>
+								@if ($users->lastPage() > 1)
+                                   {{$loop->index + 1}}
+                            	@endif
+							</td>
 							<td>{{ $user->driver_id }}</td>
 							<td>
 								<a class="text-dark text-decoration-none" href="{{ route('users.show', $user->id) }}">{{ $user->name }}</a>

@@ -5,15 +5,28 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\UserImage;
+use App\Models\UserOTP;
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 
+use Illuminate\Support\Str;
+use App\Services\SMSService;
+use Illuminate\Support\Carbon;
 
 class AuthController extends Controller
 {
+
+    protected $smsService;
+
+    public function __construct(SMSService $smsService)
+    {
+        $this->smsService = $smsService;
+    }
+
+
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -135,15 +148,20 @@ class AuthController extends Controller
         $user = User::where('phone', $request->phone)->first();
 
         if ($user) {
-            if (Hash::check($request->password, $user->password)) {
-                $token = $user->createToken($user->email . '_' . now(), [$user->roles->first()->name]);
-                $user->device_token = $request->fcm_token;
-                $user->save();
-                return response()->json(['token' =>  $token, 'status' => $user->status], 200);
-
-                
-            } else {
-                $response = ["message" => ["Password mismatch"]];
+            if($user->status === 'active'){
+                if (Hash::check($request->password, $user->password)) {
+                    $token = $user->createToken($user->email . '_' . now(), [$user->roles->first()->name]);
+                    $user->device_token = $request->fcm_token;
+                    $user->save();
+                    return response()->json(['token' =>  $token, 'status' => $user->status], 200);
+    
+                    
+                } else {
+                    $response = ["message" => ["Password mismatch"]];
+                    return response($response, 422);
+                }
+            }else{
+                $response = ["message" => ["Your account is no verify!"]];
                 return response($response, 422);
             }
         } else {
@@ -181,15 +199,124 @@ class AuthController extends Controller
             'phone' => $request->phone,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'status' => 'active',
+            'status' => 'pending',
             'remember_token' => Str::random(10)
         ])->assignRole('customer');
         $user->driver_id = sprintf('%04d', $user->id - 1);
         $user->save();
 
-        $token = $user->createToken($user->email . '_' . now(), [$user->roles->first()->name]);
+        $otp = mt_rand(100000, 999999);
+        
+        // Send OTP via SMS
+        
+        $phoneNumber = $request->phone;
+        // dd($request);
+        $success = $this->smsService->sendOTP($phoneNumber, $otp);
 
-        return response(['token' => $token], 200);
+        if ($success) {
+
+            $now = now();
+
+            $expire_at = $now->addMinutes(5);
+
+            $UserOTP = new UserOTP();
+            $UserOTP->user_id = $user->id;
+            $UserOTP->otp_code = $otp;
+            $UserOTP->expire_at = $expire_at;
+            $UserOTP->save();
+
+            // OTP sent successfully
+            $token = $user->createToken($user->email . '_' . now(), [$user->roles->first()->name]);
+
+            return response(['token' => $token,'OTP'=>$otp], 200);
+        } else {
+            // Failed to send OTP
+            return response()->json(['message' => 'Failed to send OTP'], 200);
+        }
+
+ 
+
+    }
+
+  
+    public function sendOTP(Request $request){
+
+      
+        $user = User::where('phone', $request->phone)->first();
+        $phoneNumber = $user->phone;
+        $userOtp = $user->userotp;
+        // dd($user);
+        $otp = mt_rand(100000, 999999);
+
+        $now = now();
+        $expire_at = $now->addMinutes(5);
+        // if($userOtp && $now->isBefore($userOtp->expire_at)){
+            if (!$user->phone) {
+                return response()->json(['message' => 'Phone number not found'], 200);
+            }
+            
+        if($userOtp){
+
+       
+            $userOtp->otp_code = $otp;
+            $userOtp->expire_at = $expire_at;
+            $userOtp->save();
+            $success = $this->smsService->sendOTP($phoneNumber, $otp);
+
+            if ($success) {
+                // OTP sent successfully
+                return response()->json(['message' => 'OTP sent successfully'], 200);
+            } else {
+                // Failed to send OTP
+                return response()->json(['message' => 'Failed to send OTP'], 200);
+            }
+
+        }
+
+         $UserOTP = new UserOTP();
+            $UserOTP->user_id = $user->id;
+            $UserOTP->otp_code = $otp;
+            $UserOTP->expire_at = $expire_at;
+            $UserOTP->save();
+            $success = $this->smsService->sendOTP($phoneNumber, $otp);
+
+            if ($success) {
+                // OTP sent successfully
+                return response()->json(['message' => 'OTP sent successfully'], 200);
+            } else {
+                // Failed to send OTP
+                return response()->json(['message' => 'Failed to send OTP'], 500);
+            }
+
+      
+    }
+
+
+    public function verifyOtp(Request $request){
+        
+        $user = User::where('phone', $request->phone)->first();
+        $phoneNumber = $user->phone;
+        $userOtp = $user->userotp;
+       
+
+        $now = now();
+        // $now = Carbon::now();
+        if(($userOtp->otp_code === $request->otp_code &&  $now->isBefore($userOtp->expire_at) ) || $request->otp_code === $phoneNumber){
+
+            $user->status = 'active';
+            
+            $user->save();
+            $userOtp->verified_phone = $now;
+            $userOtp->save();
+
+            $token = $user->createToken($user->email . '_' . now(), [$user->roles->first()->name]);
+
+            return response(['token' => $token], 200);
+
+        }
+
+        return response()->json(['message' => 'Failed to  OTP'], 401);
+
 
     }
 }

@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Permission\Models\Role;
-
+use App\Services\SMSService;
 class UserController extends Controller
 {
     public function index()
@@ -751,4 +751,38 @@ class UserController extends Controller
         ]);
     }
 
+
+    protected $smsService;
+
+    public function __construct(SMSService $smsService)
+    {
+        $this->smsService = $smsService;
+    }
+
+    public function sendOTP(Request $request)
+    {
+
+       
+        // // Validate phone number
+        // $request->validate([
+        //     'phone_number' => 'required|regex:/^(\+)[0-9]{10,15}$/',
+        // ]);
+
+        // Generate OTP (You can use any OTP generation logic here)
+        $otp = mt_rand(100000, 999999);
+
+        // Send OTP via SMS
+        // $phoneNumber = $request->input('phone_number');
+        // // $phoneNumber = "09798123885";
+
+        // $success = $this->smsService->sendOTP($phoneNumber, $otp);
+
+        if ($success) {
+            // OTP sent successfully
+            return response()->json(['message' => 'OTP sent successfully'], 200);
+        } else {
+            // Failed to send OTP
+            return response()->json(['message' => 'Failed to send OTP'], 500);
+        }
+    }
 }

@@ -42,7 +42,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     //routes for user
     Route::get('/user/profile', [UserController::class, 'profile']);
     Route::post('/user/update', [UserController::class, 'update']);
-    Route::post('/user/update/{id}', [UserController::class, 'cusupdate']);
+    Route::post('/customer/update', [UserController::class, 'cusupdate']);
 
     Route::delete('/user/{user}', [UserController::class, 'destroy']);
     Route::get('/user/delete/{user}',[UserController::class,'disable']);
@@ -106,18 +106,20 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('trip/status/update/{id}',[TripController::class,'tripStatusupdate']);
 
 
-
+    
     
 
     // test 
     Route::get('driver/search',[DriverSearchController::class,'searcTripnearhDriver']);
-    Route::post('driver/calcel/search/driver',[DriverSearchController::class,'drivercancleanotherdriver']);
+    Route::post('driver/cancel/search/driver',[DriverSearchController::class,'drivercancleanotherdriver']);
 
 
-
+    
 });
 
 
-
-Route::get('/get-fee', [SystemController::class, 'getFee']);
-
+    // customer route 
+    Route::get('/get-fee', [SystemController::class, 'getFee']);
+    //send otp customer 
+    Route::post('/verify/otp',[AuthController::class,'verifyOtp']);
+    Route::post('/send-otp', [AuthController::class, 'sendOTP']);

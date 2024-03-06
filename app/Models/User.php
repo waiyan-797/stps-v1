@@ -9,6 +9,8 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
+use App\Models\UserOTP;
+
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
@@ -88,5 +90,9 @@ class User extends Authenticatable
 
     public function user(){
         return $this->hasMany(User::class,'driver_id');
+    }
+
+    public function userotp(){
+        return $this->hasOne(UserOTP::class,'user_id');
     }
 }

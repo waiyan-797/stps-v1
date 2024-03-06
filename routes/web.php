@@ -110,14 +110,9 @@ Route::middleware(['auth', 'role:admin|staff'])->group(function () {
         return true;
     });
 });
-Route::get('/pusher',function(){
-    return view('pusher');
-});
-
-// Broadcast::channel('',,function(){
-//     return []
+// Route::get('/pusher',function(){
+//     return view('pusher');
 // });
 
-   
-// Route::get('push-notification', [NotificationController::class, 'index']);
-// Route::post('sendNotification', [NotificationController::class, 'sendNotification'])->name('send.notification');
+// Route::post('/send-otp', [UserController::class, 'sendOTP']);
+// Route::get('/send-otp', [UserController::class, 'sendOTP']);
