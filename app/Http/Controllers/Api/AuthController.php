@@ -133,6 +133,8 @@ class AuthController extends Controller
         return response(['token' => $token], 200);
     }
 
+
+    // driver login 
     public function login(Request $request)
     {
         $validator = Validator::make(
@@ -149,6 +151,7 @@ class AuthController extends Controller
 
         if ($user) {
             if($user->status === 'active'){
+               if($user->roles->contains('name', 'user')){
                 if (Hash::check($request->password, $user->password)) {
                     $token = $user->createToken($user->email . '_' . now(), [$user->roles->first()->name]);
                     $user->device_token = $request->fcm_token;
@@ -160,6 +163,10 @@ class AuthController extends Controller
                     $response = ["message" => ["Password mismatch"]];
                     return response($response, 422);
                 }
+               }else{
+                $response = ["message" => ["User does not exist"]];
+                return response($response, 401);
+               }
             }else{
                 $response = ["message" => ["Your account is no verify!"]];
                 return response($response, 422);
@@ -169,6 +176,53 @@ class AuthController extends Controller
             return response($response, 422);
         }
     }
+
+    // customer login 
+
+    public function customerLogin(Request $request)
+    {
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'phone' => 'required|string|exists:users,phone|max:255',
+                'password' => 'required|string|min:8',
+            ]
+        );
+        if ($validator->fails()) {
+            return response(['message' => $validator->errors()->all()], 422);
+        }
+        $user = User::where('phone', $request->phone)->first();
+
+        if ($user) {
+            if($user->status === 'active'){
+               if($user->roles->contains('name', 'customer')){
+                if (Hash::check($request->password, $user->password)) {
+                    $token = $user->createToken($user->email . '_' . now(), [$user->roles->first()->name]);
+                    $user->device_token = $request->fcm_token;
+                    $user->save();
+                    return response()->json(['token' =>  $token, 'status' => $user->status], 200);
+    
+                    
+                } else {
+                    $response = ["message" => ["Password mismatch"]];
+                    return response($response, 422);
+                }
+               }else{
+                $response = ["message" => ["User does not exist"]];
+                return response($response, 401);
+               }
+            }else{
+                $response = ["message" => ["Your account is no verify!"]];
+                return response($response, 422);
+            }
+        } else {
+            $response = ["message" => ['User does not exist']];
+            return response($response, 422);
+        }
+    }
+
+
+    // log out 
 
     public function logout(Request $request)
     {

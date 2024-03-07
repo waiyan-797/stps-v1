@@ -57,6 +57,9 @@ class CustomerController extends Controller
             ])->assignRole('customer');
             $user->driver_id = sprintf('%04d', $user->id - 1);
             $user->save();
+
+           
+
         } catch (ValidationException $e) {
             return back()->withErrors($e->getMessage());
         }

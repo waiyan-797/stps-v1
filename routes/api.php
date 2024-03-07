@@ -31,6 +31,8 @@ use Illuminate\Support\Facades\Broadcast;
 */
 
 Route::post('/login', [AuthController::class, 'login']);
+Route::post('customer/login', [AuthController::class, 'customerLogin']);
+
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/sign-up', [AuthController::class, 'register']);
 Route::post('/customer/register',[AuthController::class, 'cusregister']);
