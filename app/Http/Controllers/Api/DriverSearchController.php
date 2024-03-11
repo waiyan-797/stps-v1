@@ -219,15 +219,16 @@ class DriverSearchController extends Controller
         // ];
 
         
+        
         $status = 'pending'; 
 
         $trip = Trip::where('driver_id', $id)->where('status', $status)->first();
-        
-                    $tripData = [];
+        // dd($trip);
+                    $tripData ;
                     if($trip !== null){
                         $user = User::findOrFail($trip->user_id);
         
-                        $tripData[] = [
+                        $tripData = [
                                  "id" => $trip->id,
                                  "user_id" => $user,
                                  "distance" => $trip->distance,
