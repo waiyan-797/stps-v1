@@ -74,14 +74,14 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/store-token', [CustomNotificationController::class, 'storeToken']);
     Route::get('/custom-notification', [NotificationController::class, 'custom_notification']);
 
+
+   
     // driver route 
     Route::get('driver/all', [DriverLocationController::class, 'driverall']);
     Route::post('driver/update/{id}', [DriverLocationController::class, 'driverupdate']);
-    Route::post('/driver/trip/start/{id}',[TripStatusController::class,'start']);
-    Route::post('/driver/trip/end/{id}',[TripStatusController::class,'end']);
-    Route::get('/driver/trip/cash/{id}',[TripStatusController::class,'cash']);
     Route::get('extra-fee',[TripStatusController::class,'extraFee']);
     Route::post('driver/available/update', [DriverLocationController::class, 'driverAvailableUpdate']);
+    Route::get('search/trip/{id}',[DriverSearchController::class,'searchTripId']);
 
     // customer route 
    
@@ -114,6 +114,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // test 
     Route::get('driver/search',[DriverSearchController::class,'searcTripnearhDriver']);
     Route::post('driver/cancel/search/driver',[DriverSearchController::class,'drivercancleanotherdriver']);
+    Route::post('/driver/trip/start/{id}',[TripStatusController::class,'start']);
+    Route::post('/driver/trip/end/{id}',[TripStatusController::class,'end']);
+    Route::get('/driver/trip/cash/{id}',[TripStatusController::class,'cash']);
 
 
     

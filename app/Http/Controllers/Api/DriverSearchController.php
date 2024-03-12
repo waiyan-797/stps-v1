@@ -191,34 +191,11 @@ class DriverSearchController extends Controller
                 
             }
     }
+
+    //driver id search trip
     public function searchTrip($id){
 
-        // $trips = Trip::where('driver_id',$id)->where('status','pending')->get();
-        // $user =User::findOrFail($trips->pluck('user_id'));
-        // $data = [
-        // "id"=> $trips->pluck('id'),
-        // "user_id"=> $user,
-        // "distance"=> $trips->pluck('distance'),
-        // "duration"=> $trips->pluck('duration'),
-        // "waiting_time"=> $trips->pluck('wawiting_time'),
-        // "normal_fee"=> $trips->pluck('normal_fee'),
-        // "waiting_fee"=> $trips->pluck('waiting_fee'),
-        // "extra_fee"=> $trips->pluck('extra_fee'),
-        // "total_cost"=> $trips->pluck('total_cost'),
-        // "start_lat"=> $trips->pluck('start_lat'),
-        // "start_lng"=> $trips->pluck('start_lng'),
-        // "end_lat"> $trips->pluck('end_lat'),
-        // "end_lng"=> $trips->pluck('end_lng'),
-        // "status"> $trips->pluck('status'),
-        // "start_address"=> $trips->pluck('start_address'),
-        // "end_address"=> $trips->pluck('end_address'),
-        // "driver_id"=>$trips->pluck('driver_id'),
-        // "cartype"=> $trips->pluck('cartype'),
-        // "created_at"=> $trips->pluck('created_at'),
-        // "updated_at"=> $trips->pluck('update_at')
-        // ];
-
-        
+       
         
         $status = 'pending'; 
 
@@ -257,50 +234,55 @@ class DriverSearchController extends Controller
                         return response()->json($tripData);
                     }
                     
-                    
-        // $trips = Trip::where('driver_id', $id)->get();
-        
-        // if($trips == null){
-        //     $tripData = [];
-        //     foreach ($trips as $trip) {
-        //         if ($trip->status == $status) {
-        //             $user = User::findOrFail($trip->user_id);
-            
-        //             $tripData[] = [
-        //                 "id" => $trip->id,
-        //                 "user_id" => $user,
-        //                 "distance" => $trip->distance,
-        //                 "duration" => $trip->duration,
-        //                 "waiting_time" => $trip->waiting_time,
-        //                 "normal_fee" => $trip->normal_fee,
-        //                 "waiting_fee" => $trip->waiting_fee,
-        //                 "extra_fee" => $trip->extra_fee,
-        //                 "total_cost" => $trip->total_cost,
-        //                 "start_lat" => $trip->start_lat,
-        //                 "start_lng" => $trip->start_lng,
-        //                 "end_lat" => $trip->end_lat,
-        //                 "end_lng" => $trip->end_lng,
-        //                 "status" => $trip->status,
-        //                 "start_address" => $trip->start_address,
-        //                 "end_address" => $trip->end_address,
-        //                 "driver_id" => $trip->driver_id,
-        //                 "cartype" => $trip->cartype,
-        //                 "created_at" => $trip->created_at,
-        //                 "updated_at" => $trip->updated_at
-        //             ];
-        //         }
-        //     }
-            
-        // }else{
-        //     return response()->json('message','Trip not found');
-
-        // }
+  
         
         
         
 
 
        
+    }
+
+    //trip id search trip
+
+    public function searchTripId($id){
+
+        $trip = Trip::findOrFail($id);
+
+
+        $tripData ;
+        if($trip !== null){
+            $user = User::findOrFail($trip->user_id);
+
+            $tripData = [
+                     "id" => $trip->id,
+                     "user_id" => $user,
+                     "distance" => $trip->distance,
+                     "duration" => $trip->duration,
+                     "waiting_time" => $trip->waiting_time,
+                     "normal_fee" => $trip->normal_fee,
+                     "waiting_fee" => $trip->waiting_fee,
+                     "extra_fee" => $trip->extra_fee,
+                     "total_cost" => $trip->total_cost,
+                     "start_lat" => $trip->start_lat,
+                     "start_lng" => $trip->start_lng,
+                     "end_lat" => $trip->end_lat,
+                     "end_lng" => $trip->end_lng,
+                     "status" => $trip->status,
+                     "start_address" => $trip->start_address,
+                     "end_address" => $trip->end_address,
+                     "driver_id" => $trip->driver_id,
+                     "cartype" => $trip->cartype,
+                     "created_at" => $trip->created_at,
+                     "updated_at" => $trip->updated_at
+                 ];
+
+                 return response()->json($tripData);
+        }
+        else{
+            return response()->json($tripData);
+        }
+
     }
 }
 
