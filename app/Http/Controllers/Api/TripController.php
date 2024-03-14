@@ -195,6 +195,8 @@ class TripController extends Controller
 
     public function show($id)
     {
+
+        
         $trip = Trip::find($id);
 
         if (!$trip) {

@@ -55,6 +55,7 @@ class TripController extends Controller
 
     public function show($id)
     {
+        // dd($id);
         $user = User::findOrFail($id);
         $transactions = $user->transactions()
             ->where('income_outcome', 'income')->latest()

@@ -41,6 +41,7 @@ class TripSeeder extends Seeder
                 'end_lat' => $faker->latitude($min = -90, $max = 90),
                 'end_lng' => $faker->longitude($min = -180, $max = 180),
                 'cartype'=> $faker->randomElement([1,2,3]),
+                'driver_id' =>rand(1,5),
                 'created_at' => $date,
                 'updated_at' => $date
             ]);
