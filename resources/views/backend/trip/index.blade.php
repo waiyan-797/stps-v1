@@ -36,7 +36,7 @@
 				<tbody class="table-group-divider" style="border-top:10px solid #ffffff">
 					@foreach ($trips as $key => $trip)
 						<tr class="">
-							<td scope="row">{{ $trip->user->driver_id }}</td>
+							<td scope="row">{{ $trip->driver_id }}</td>
 							<td>
 								<a class="text-dark text-decoration-none"
 									href="{{ route('trip.show', $trip->user->id) }}">{{ $trip->user->name }}</a>
