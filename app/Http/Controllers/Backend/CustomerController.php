@@ -21,7 +21,7 @@ class CustomerController extends Controller
           $usersCount = $usersQuery->count();
   
           // Paginate the results
-          $users = $usersQuery->paginate(2);
+          $users = $usersQuery->paginate(25);
         // dd($users);
         return view('backend.customers.index',compact('users','usersCount','usersQuery'));
     }
