@@ -62,6 +62,7 @@ class TripController extends Controller
 
     if($driver->available == false || $driver->available == 0){
         $driver->available = true;
+
         $driver->save();
     }
 
@@ -278,27 +279,7 @@ class TripController extends Controller
         $trip->save();
         
         $driver = User::findOrFail($trip->driver_id);
-        // $data = [
-        //     'id' => $trip->id,
-        //     'user_id' => Auth::user()->id,
-        //     'distance' => $trip->distance,
-        //     'duration' => $trip->duration,
-        //     'waiting_time' => $trip->waiting_time,
-        //     'normal_fee' => $trip->normal_fee,
-        //     'waiting_fee' => $trip->waiting_fee,
-        //     'extra_fee' => $trip->extra_fee,
-        //     'total_cost' => $trip->total_cost,
-        //     'start_lat' => $trip->start_lat,
-        //     'start_lng' => $trip->start_lng,
-        //     'end_lat' => $trip->end_lat,
-        //     'end_lng' => $trip->end_lng,
-        //     'status' => $request->status,
-        //     'driver_id' =>$driver,
-        //     'cartype' =>$trip->cartype,
-
-             
-        // ];
-        // return response()->json($data);
+        
 
         return response()->json($trip);
 
