@@ -33,11 +33,12 @@ class TripController extends Controller
         return response()->json($trip);
     }
 
+
+    //trip end 
     public function store(Request $request)
     {
 
-       
-        // dd(Auth::user()->id);
+    
         $validator = Validator::make($request->all(), [
             'distance' => 'required|numeric',
             'duration' => 'required|string',
@@ -82,7 +83,7 @@ class TripController extends Controller
             $trip->extra_fee = $request->extra_fee;
             $trip->total_cost = $request->total_cost;
             $trip->end_lat = $request->end_lat;
-            $trip->end_lng = $request->start_lng;
+            $trip->end_lng = $request->end_lng;
             $trip->status = "completed";
             $trip->start_address = $request->start_address;
             $trip->end_address = $request->end_address;
@@ -133,10 +134,10 @@ class TripController extends Controller
             $trip->extra_fee = $request->extra_fee;
             $trip->total_cost = $request->total_cost;
             $trip->end_lat = $request->end_lat;
-            $trip->end_lng = $request->start_lng;
+            $trip->end_lng = $request->end_lng;
             $trip->status = "completed";
-            // $trip->start_address = $request->start_address;
-            // $trip->end_address = $request->end_address;
+            $trip->start_address = $request->start_address;
+            $trip->end_address = $request->end_address;
             $trip->driver_id = $driver->id;
             $system = System::findOrFail(1);
 

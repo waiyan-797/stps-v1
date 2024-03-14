@@ -84,10 +84,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('search/trip/{id}',[DriverSearchController::class,'searchTripId']);
 
     // customer route 
-   
     Route::get('/car/type',[DriverLocationController::class,'cartype']);
     Route::get('/fee', [FeeController::class, 'index']);
-    Route::apiResource('/trip', TripController::class, array("as" => "api"));
+    Route::apiResource('/trip', TripController::class, array("as" => "api")); //trop post  end trip 
     Route::post('/trip/start', [TripController::class, 'tripStart']);
     Route::post('/near-driver-all',[DriverLocationController::class,'neardriverall']);
 
