@@ -21,16 +21,22 @@ class Trip extends Model
         'waiting_fee',
         'extra_fee',
         'total_cost',
+        'driver_id',
+
 
         'start_lat',
         'start_lng',
         'end_lat',
         'end_lng',
+        'start_address',
+        'end_address',
+        'cartype',
+        'status'
     ];
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class,"driver_id");
     }
 
     public function cartype()

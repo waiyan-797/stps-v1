@@ -40,11 +40,7 @@
 							<td>
 								<a class="text-dark text-decoration-none"
 									href="{{ route('trip.show', $trip->driver_id) }}">
-									@if($trip->user->name === null)
-										"Unknown"
-										@else
-										{{$trip->user->name}}
-									@endif
+									{{$trip->user->name}}
 								</a>
 							</td>
 							<td>{{ $trip->distance }} </td>

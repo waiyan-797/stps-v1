@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
+use App\Models\Trip;
 
 use App\Models\UserOTP;
 
@@ -81,7 +82,7 @@ class User extends Authenticatable
 
     public function trips()
     {
-        return $this->hasMany(Trip::class);
+        return $this->hasMany(Trip::class,'driver_id');
     }
     public function notifications()
     {
