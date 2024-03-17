@@ -48,13 +48,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::delete('/user/{user}', [UserController::class, 'destroy']);
     Route::get('/user/delete/{user}',[UserController::class,'disable']);
-    Route::get('user/trip', [UserController::class, 'usertrip']);
-    // Route::get('user/notifications', [UserController::class, 'userNoti']);
+    Route::get('user/trip', [UserController::class, 'userTrip']);//user trip history
+    
+    Route::get('user/notifications', [UserController::class, 'userNoti']);
 
    
-    //routes for fee
-    
-    //routes for trip
   
     Route::get('customer/trip/data',[CustromerTripController::class,'index']);
 
