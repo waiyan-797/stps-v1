@@ -197,9 +197,13 @@ class DriverSearchController extends Controller
 
        
         
-        $status = 'pending'; 
+       
 
-        $trip = Trip::where('driver_id', $id)->where('status', $status)->first();
+        $trip = Trip::where('driver_id', $id)
+            ->where('status', '!=', 'canceled')
+            ->where('status','!=', 'completed')
+            ->first();
+
         // dd($trip);
                     $tripData ;
                     if($trip !== null){
