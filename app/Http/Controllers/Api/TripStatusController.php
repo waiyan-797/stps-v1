@@ -59,6 +59,7 @@ class TripStatusController extends Controller
 
         
      }
+     
      public function end(Request $request,$id){
         $validator = Validator::make($request->all(), [
             'distance' => 'required|numeric',

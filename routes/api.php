@@ -82,11 +82,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('extra-fee',[TripStatusController::class,'extraFee']);
     Route::post('driver/available/update', [DriverLocationController::class, 'driverAvailableUpdate']);
     Route::get('search/trip/{id}',[DriverSearchController::class,'searchTripId']);
+    Route::post('/driver/trip/start/{id}',[TripStatusController::class,'start']); //start trip
 
     // customer route 
     Route::get('/car/type',[DriverLocationController::class,'cartype']);
     Route::get('/fee', [FeeController::class, 'index']);
-    Route::apiResource('/trip', TripController::class, array("as" => "api")); //trop post  end trip 
+    Route::apiResource('/trip', TripController::class, array("as" => "api")); //trip post  end  get
     Route::post('/trip/start', [TripController::class, 'tripStart']);
     Route::post('/near-driver-all',[DriverLocationController::class,'neardriverall']);
 
@@ -96,12 +97,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 
     // booking 
-    Route::apiResource('/customer/trip', CustromerTripController::class, array("as" => "api"));
+    Route::apiResource('/customer/trip', CustromerTripController::class, array("as" => "api"));//tripcreate and trip get custromer
     Route::post('customer/trip/update/{id}',[CustromerTripController::class,'update']);
     Route::get('driver/search/trip/{id}',[DriverSearchController::class,'searchTrip']);
     Route::post('customer/booking',[CustromerTripController::class,'store']);
     Route::get('/customer/active-booking',[CustromerTripController::class,'activeBooking']);
-
 
     // driver and customer 
     Route::post('trip/status/update/{id}',[TripController::class,'tripStatusupdate']);
@@ -113,7 +113,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // test 
     Route::get('driver/search',[DriverSearchController::class,'searcTripnearhDriver']);
     Route::post('driver/cancel/search/driver',[DriverSearchController::class,'drivercancleanotherdriver']);
-    Route::post('/driver/trip/start/{id}',[TripStatusController::class,'start']);
+ 
     Route::post('/driver/trip/end/{id}',[TripStatusController::class,'end']);
     Route::get('/driver/trip/cash/{id}',[TripStatusController::class,'cash']);
 

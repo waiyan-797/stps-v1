@@ -17,7 +17,7 @@ class TripController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $trips = Trip::latest()->where('user_id', $user->id)->get();
+        $trips = Trip::latest()->where('driver_id', $user->id)->get();
 
         return response()->json($trips, 200);
     }

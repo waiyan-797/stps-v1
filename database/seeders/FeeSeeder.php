@@ -45,7 +45,7 @@ class FeeSeeder extends Seeder
                 'waiting_fee' => 500.00,
                 'commission_fee' => 200.00,
                
-                'standard_fee'=>1500,
+                'standard_fee'=>2000,
                 'cargo_fee'=>2500,
                 'plus_fee'=>2500
                 
