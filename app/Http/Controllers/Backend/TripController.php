@@ -14,8 +14,36 @@ class TripController extends Controller
     {
         $trips = Trip::latest()->paginate(25);
         $tripsCount = Trip::count();
+        $users = User::all();
 
-        return view('backend.trip.index', compact('trips', 'tripsCount'));
+        return view('backend.trip.index', compact('trips', 'tripsCount','users'));
+    }
+
+    public function accepted()
+    {
+        $trips = Trip::latest()->where('status','accepted')->paginate(25);
+        $tripsCount = Trip::count();
+        $users = User::all();
+
+        return view('backend.trip.accepted', compact('trips', 'tripsCount','users'));
+    }
+
+    public function completed()
+    {
+        $trips = Trip::latest()->where('status','completed')->paginate(25);
+        $tripsCount = Trip::count();
+        $users = User::all();
+
+        return view('backend.trip.completed', compact('trips', 'tripsCount','users'));
+    }
+
+    public function canceled()
+    {
+        $trips = Trip::latest()->where('status','canceled')->paginate(25);
+        $tripsCount = Trip::count();
+        $users = User::all();
+
+        return view('backend.trip.canceled', compact('trips', 'tripsCount','users'));
     }
 
     public function update(Request $request, $id)
@@ -55,18 +83,27 @@ class TripController extends Controller
 
     public function show($id)
     {
-        // dd($id);
-        $user = User::findOrFail($id);
-        $transactions = $user->transactions()
-            ->where('income_outcome', 'income')->latest()
-            ->paginate(10);
-            // dd($user);
+        
+        $trip = Trip::findOrFail($id);
+        $user = User::findOrFail($trip->driver_id);
+        if($trip->user_id === null){
+        $customer = null;
+            
+        }else{
+            $customer = User::findOrFail($trip->user_id);
 
-        $tripsQuery = $user->trips();
-        $tripsCount = $tripsQuery->count();
-        $trips = $tripsQuery->latest()->paginate(10);
+        }
 
-        return view('backend.trip.show', compact('user', 'transactions', 'trips', 'tripsCount'));
+        // $transactions = $user->transactions()
+        //     ->where('income_outcome', 'income')->latest()
+        //     ->paginate(10);
+  
+
+        // $tripsQuery = $user->trips();
+        // $tripsCount = $tripsQuery->count();
+        // $trips = $tripsQuery->latest()->paginate(10);
+
+        return view('backend.trip.show', compact('user', 'customer', 'trip'));
     }
 
     public function destroy($id)
@@ -98,5 +135,59 @@ class TripController extends Controller
         $tripsCount = Trip::count();
 
         return view('backend.trip.index', compact('trips', 'tripsCount'));
+    }
+
+    public function searchAccepted(Request $request)
+    {
+        $keyword = $request->input('key');
+        $users = User::all();
+
+        $user = User::where('name', 'LIKE', '%' . $keyword . '%')
+            ->orWhere('phone', 'LIKE', '%' . $keyword . '%')
+            ->orWhere('driving_license', 'LIKE', '%' . $keyword . '%')
+            ->orWhere('nrc_no', 'LIKE', '%' . $keyword . '%')
+            ->get();
+
+        $user_ids = collect($user)->pluck('id')->toArray();
+
+        $trips = Trip::whereIn('driver_id', $user_ids)->where('status','accepted')->paginate(25);
+        $tripsCount = Trip::count();
+
+        return view('backend.trip.accepted', compact('trips', 'tripsCount','users'));
+    }
+    public function searchCompleted(Request $request)
+    {
+        $keyword = $request->input('key');
+        $users = User::all();
+
+        $user = User::where('name', 'LIKE', '%' . $keyword . '%')
+            ->orWhere('phone', 'LIKE', '%' . $keyword . '%')
+            ->orWhere('driving_license', 'LIKE', '%' . $keyword . '%')
+            ->orWhere('nrc_no', 'LIKE', '%' . $keyword . '%')
+            ->get();
+
+        $user_ids = collect($user)->pluck('id')->toArray();
+
+        $trips = Trip::whereIn('driver_id', $user_ids)->where('status','completed')->paginate(25);
+        $tripsCount = Trip::count();
+
+        return view('backend.trip.completed', compact('trips', 'tripsCount','users'));
+    }
+    public function searchCanceled(Request $request)
+    {
+        $keyword = $request->input('key');
+        $users = User::all();
+        $user = User::where('name', 'LIKE', '%' . $keyword . '%')
+            ->orWhere('phone', 'LIKE', '%' . $keyword . '%')
+            ->orWhere('driving_license', 'LIKE', '%' . $keyword . '%')
+            ->orWhere('nrc_no', 'LIKE', '%' . $keyword . '%')
+            ->get();
+
+        $user_ids = collect($user)->pluck('id')->toArray();
+
+        $trips = Trip::whereIn('driver_id', $user_ids)->where('status','canceled')->paginate(25);
+        $tripsCount = Trip::count();
+
+        return view('backend.trip.canceled', compact('trips', 'tripsCount','users'));
     }
 }

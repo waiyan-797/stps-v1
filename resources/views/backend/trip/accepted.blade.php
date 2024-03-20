@@ -25,7 +25,7 @@
 @section('content')
 	<div class="container">
 		<div class="col-md-3">
-			<form action="{{ route('trips.search') }}" method="GET">
+			<form action="{{ route('trips.search.accepted') }}" method="GET">
 				@csrf
 				<div class="input-group mb-3">
 					<button class="btn btn-outline-secondary text-dark" type="submit" style="border:1px solid #ced4da"><i
@@ -56,13 +56,13 @@
 				</thead>
 				<tbody class="table-group-divider" style="border-top:10px solid #ffffff">
 					@foreach ($trips as $key => $trip)
-					
 						<tr class="">
-						
 							<td>{{$loop->index +1}}</td>
-							<td scope="row"><a class="text-dark text-decoration-none" href="{{route('trip.show',$trip->id)}}">
-								ID-{{$trip->id }}
-							</a></td>
+							<td scope="row">
+								<a class="text-dark text-decoration-none" href="{{route('trip.show',$trip->id)}}">
+									ID-{{$trip->id }}
+								</a>
+							</td>
 							
 
 							<td>
@@ -94,8 +94,6 @@
 									{{$trip->status}}
 								</div>
 							</td>
-						
-							
 							{{-- <td>{{ Carbon\Carbon::parse($trip->created_at)->format('d-m-Y') }}</td> --}}
 							@role('admin')
 								<td>
@@ -126,13 +124,9 @@
 							<li class="page-item {{ $trips->onFirstPage() ? 'disabled' : '' }}">
 								<a class="page-link" id="pre-page-link" href="{{ $trips->previousPageUrl() }}" rel="prev"><</a>
 							</li>
-							@for ($i = 1 ; $i <= $trips->lastPage() ; $i++)
-							<li class="page-item {{ ($trips->currentPage() == $i)? 'active':'' }} ">
-								<a class="page-link" id="next-page-link" href="{{ $trips->url($i) }}" rel="next">{{ $i }}</a>
-							</li>
-						@endfor
 
-							{{-- @if ($trips->lastPage() > 1 && $trips->lastPage() < 10)
+
+							@if ($trips->lastPage() > 1 && $trips->lastPage() < 10)
                                     @for ($i = 1 ; $i <= $trips->lastPage() ; $i++)
                                         <li class="page-item {{ ($trips->currentPage() == $i)? 'active':'' }} ">
                                             <a class="page-link" id="next-page-link" href="{{ $trips->url($i) }}" rel="next">{{ $i }}</a>
@@ -149,7 +143,7 @@
                                             </li>
                                         @endif
                                     @endfor
-                            @endif --}}
+                            @endif
 
 							<li class="page-item {{ $trips->hasMorePages() ? '' : 'disabled' }}">
 								<a class="page-link" id="next-page-link" href="{{ $trips->nextPageUrl() }}" rel="next">></a>

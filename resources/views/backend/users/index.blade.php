@@ -93,7 +93,7 @@
 								<a class="page-link" id="pre-page-link" href="{{ $users->previousPageUrl() }}" rel="prev"><</a>
 							</li>
 
-							@if ($users->lastPage() > 1)
+							@if ($users->lastPage() >= 1)
                                     @for ($i = 1 ; $i <= $users->lastPage() ; $i++)
                                         <li class="page-item {{ ($users->currentPage() == $i)? 'active':'' }} ">
                                             <a class="page-link" id="next-page-link" href="{{ $users->url($i) }}" rel="next">{{ $i }}</a>

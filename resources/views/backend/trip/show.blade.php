@@ -1,10 +1,30 @@
 @extends('layouts.app')
+<style>
+	.pending,.accepted,.canceled,.completed{
+		text-align: center;
+		border-radius: 10px;
+		color: #fff;
+	}
+	.pending{
+		background: #fc760894;
 
+	}
+	.accepted{
+		background: #83e405;
+	}
+	.canceled{
+		background: rgb(240, 40, 40);
+	}
+	.completed{
+		background: #0fccee;
+	}
+</style>
 @section('content')
 <div class="container p-3">
     <div class="main-body">
         <div class="row">
-            <div class="col-lg-4 mb-3">
+            {{-- start driver  --}}
+            <div class="col-lg-3 mb-3">
                 <div class="card mb-3 h-100">
                     <div class="card-body position-relative">
                         <div class="d-flex flex-column justify-content-center align-items-center text-center overflow-hidden">
@@ -45,22 +65,186 @@
                                     </li>
                                 </ul>
                             </div>
-                        {{-- <div class="p-3">
-                            <a class=" form-control btn btn-outline-success mb-4" href="{{ route('users.edit', ['user' => $user]) }}">
-                                Edit
-                            </a>
-                            <form class="d-block" action="{{ route('users.destroy', $user->id) }}" method="POST">
-                                @csrf
-                                @method('DELETE')
-                                <button class=" form-control btn btn-outline-danger" type="submit">
-                                    Delete
-                                </button>
-                            </form>
-                        </div> --}}
+                      
                     </div>
                 </div>
             </div>
-            <div class="col-lg-8 mb-3">
+            {{-- end driver  --}}
+
+
+            {{-- start trip detail --}}
+            <div class="col-lg-6 mb-3">
+               
+                <div class="card mb-6 h-100">
+                    <div class="card-header">
+                        <div class="d-flex justify-content-between">
+                            <p>Trip Detail</p>
+                            <p>Date : <span>{{ Carbon\Carbon::parse($trip->updated_up)->format('F j,Y h:m:s A') }}</span></p>
+
+                        </div>
+                    </div>
+                    <div class="card-body position-relative">
+                        
+                        <div class="d-flex my-2 position-relative">
+                            <div class="col-4">Trip ID</div>
+                            <div class="col-1">:</div>
+                            <div> ID-{{$trip->id}} </div>
+                            <div class="position-absolute end-0 {{$trip->status}} px-2">{{$trip->status}}</div>
+                        </div>
+                        <div class="d-flex my-2 ">
+                            <div class="col-4">Distance (Km)</div>
+                            <div class="col-1">:</div>
+                            <div> {{$trip->distance}}</div>
+                        </div>
+                        <div class="d-flex my-2 ">
+                            <div class="col-4">Duration (time)</div>
+                            <div class="col-1">:</div>
+                            <div> {{$trip->distance}}</div>
+                        </div>
+                        <div class="d-flex my-2 ">
+                            <div class="col-4">Waiting Time</div>
+                            <div class="col-1">:</div>
+                            <div> {{$trip->waiting_time}}</div>
+                        </div>
+                        <div class="d-flex my-2 ">
+                            <div class="col-4">Waiting Cost</div>
+                            <div class="col-1">:</div>
+                            <div> {{$trip->waiting_fee}}</div>
+                        </div>
+                        <div class="d-flex my-2 ">
+                            <div class="col-4">Normal Cost</div>
+                            <div class="col-1">:</div>
+                            <div> {{$trip->normal_fee}}</div>
+                        </div>
+                        <div class="d-flex my-2 ">
+                            <div class="col-4">Extra Cost</div>
+                            <div class="col-1">:</div>
+                            <div> {{$trip->extra_fee}}</div>
+                        </div>
+                        <div class="d-flex my-2 ">
+                            <div class="col-4">Total Cost</div>
+                            <div class="col-1">:</div>
+                            <div> {{$trip->total_cost}}</div>
+                        </div>
+                        <div class="d-flex my-2 ">
+                            <div class="col-4">Trip From</div>
+                            <div class="col-1">:</div>
+                            <div> {{$trip->start_address === null ? 'No start address' : $trip->start_address}}</div>
+                        </div>
+                        <div class="d-flex my-2 ">
+                            <div class="col-4">Trip To</div>
+                            <div class="col-1">:</div>
+                            <div> {{$trip->end_address === null ? 'No start address' : $trip->end_address}}</div>
+                        </div>
+                       
+                        
+                    </div>
+                </div>
+            </div>
+                      
+                        
+            {{-- end trip detail  --}}
+
+
+            {{-- start customer  --}}
+            <div class="col-lg-3 mb-3">
+                @if($customer !== null)
+                <div class="card mb-3 h-100">
+                    <div class="card-body position-relative">
+                        <div class="d-flex flex-column justify-content-center align-items-center text-center overflow-hidden">
+                            
+                            @if ($customer->userImage && $customer->userImage->profile_image && file_exists('uploads/images/profiles/'.$customer->userImage->profile_image))
+
+                                <div class="">
+                                    <img src="{{ asset('uploads/images/profiles/'. $customer->userImage->profile_image) }}" alt="User"
+                                        style="width:100%;height:20rem; object-fit:cover;object-position: center;">
+                                       
+                                </div>
+                            @else
+                                <img class="" src="{{ asset('assets/logo/user.png') }}" alt="User"
+                                    style="width: 10rem;height: 10rem; object-fit: cover; object-position: center;">
+                            @endif
+
+                            <div class="mt-3">
+                                <h3>{{ $customer->name }}</h3>
+                            </div>
+                        </div>
+                        <hr class="my-4">
+                            <div class="d-flex justify-content-center w-100">
+                                <ul class="list-group list-group-flush w-100">
+                                    <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                        <h6 class="mb-0">Customer ID</h6>
+                                        <span class="text-muted">{{ $customer->driver_id }}</span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap ">
+                                        <h6 class="mb-0">Phone</h6>
+                                        <span class="text-muted"  id="phone_copy">
+                                            {{ $customer->phone }}
+                                            <i class="btn fa-regular fa-clipboard cursor-pointer position-absolute p-0 border-0" style="right: -0.25rem;top:0.75rem;" id="copy_btn" onclick="copyToClipboard('phone_copy')"></i>
+                                        </span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                        <h6 class="mb-0">Birth Date</h6>
+                                        <span class="text-muted">{{ Carbon\Carbon::parse($customer->birth_date)->format('F j,Y') }}</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        
+                    </div>
+                </div>
+
+                @else
+                <div class="card mb-3 h-100 position-relative">
+                    <div class="card-body position-relative">
+                        <div class="d-flex flex-column justify-content-center align-items-center text-center overflow-hidden">
+                   
+                                <div class="">
+                                    <img class="" src="{{ asset('assets/logo/user.png') }}" alt="User"
+                                    style="width: 10rem;height: 10rem; object-fit: cover; object-position: center;">
+                           
+                                </div>
+                          
+
+                            <div class="mt-3">
+                                <h3>No search</h3>
+                            </div>
+                        </div>
+                        <hr class="my-4">
+                            <div class="d-flex justify-content-center w-100">
+                                <ul class="list-group list-group-flush w-100">
+                                    <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                        <h6 class="mb-0">Customer ID</h6>
+                                        <span class="text-muted">NO search</span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap ">
+                                        <h6 class="mb-0">Phone</h6>
+                                        <span class="text-muted"  id="phone_copy">
+                                            No search
+                                            <i class="btn fa-regular fa-clipboard cursor-pointer position-absolute p-0 border-0" style="right: -0.25rem;top:0.75rem;" id="copy_btn" onclick="copyToClipboard('phone_copy')"></i>
+                                        </span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                        <h6 class="mb-0">Birth Date</h6>
+                                        <span class="text-muted">NO search</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        
+                    </div>
+                    <div class="position-absolute w-100 h-100" style="background:#ffffff98">
+                        <div class="position-absolute top-50 shadow-lg" style="transform: translateY(-50%)">
+                            <div class="fs-4 text-center text-danger fw-bold" style="transform: rotate(30deg)">
+                                Normal trip in user not found !
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                  
+                @endif
+                
+            </div>
+            {{-- end customer  --}}
+            {{-- <div class="col-lg-8 mb-3">
                 <div class="card mb-3 h-100">
                     <div class="card-body">
                         <div class="row">
@@ -110,11 +294,11 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
-        <div class="col-lg-12">
+        {{-- <div class="col-lg-12">
             <div class="row align-items-stretch">
-                {{-- <div class="col-md-6">
+                <div class="col-md-6">
                     <div class="card mb-3 h-100">
                         <div class="card-body">
                             <span class=""><i class="fa-solid fa-wallet me-2"></i> TOPUP HISTORY</span>
@@ -159,7 +343,7 @@
 
                         </div>
                     </div>
-                </div> --}}
+                </div>
                 <div class="col-md-12">
                     <div class="card mb-3 h-100">
                         <div class="card-body">
@@ -231,7 +415,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
 </div>
 

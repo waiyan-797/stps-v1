@@ -51,12 +51,7 @@ Route::middleware(['auth', 'role:admin|staff'])->group(function () {
     Route::resource('fee', FeeController::class)->only([
         'index', 'store', 'update', 'destroy'
     ]);
-    Route::resource('trip', TripController::class)->only([
-        'index', 'update', 'destroy','show'
-    ]);
-
-    Route::get('/trips/search', [TripController::class, 'search'])->name('trips.search');
-
+    
     Route::get('/topup', [TransactionController::class, 'index'])->name('topup.index');
     Route::post('/topup', [TransactionController::class, 'topup'])->name('topup.add');
     Route::get('/topup/search', [TransactionController::class, 'search'])->name('topup.search');
@@ -105,10 +100,25 @@ Route::middleware(['auth', 'role:admin|staff'])->group(function () {
     Route::get('/customers/show/{id}', [CustomerController::class, 'show'])->name('customers.show');
 
 
-    Broadcast::channel('request-near-driver-all-channel', function ($user) {
-        // Return true to authorize any user to listen to this channel
-        return true;
-    });
+    // Trip route 
+    Route::resource('trip', TripController::class)->only([
+        'index', 'update', 'destroy','show'
+    ]);
+
+    Route::get('/trips/search', [TripController::class, 'search'])->name('trips.search');
+    Route::get('/trips/accepted', [TripController::class, 'accepted'])->name('trips.accepted');
+    Route::get('/trips/completed', [TripController::class, 'completed'])->name('trips.completed');
+    Route::get('/trips/canceled', [TripController::class, 'canceled'])->name('trips.canceled');
+    Route::get('/trips/search/accepted', [TripController::class, 'searchAccepted'])->name('trips.search.accepted');
+    Route::get('/trips/search/completed', [TripController::class, 'searchCompleted'])->name('trips.search.completed');
+    Route::get('/trips/search/canceled', [TripController::class, 'searchCanceled'])->name('trips.search.canceled');
+    
+
+
+    // Broadcast::channel('request-near-driver-all-channel', function ($user) {
+    //     // Return true to authorize any user to listen to this channel
+    //     return true;
+    // });
 });
 // Route::get('/pusher',function(){
 //     return view('pusher');

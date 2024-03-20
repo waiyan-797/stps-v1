@@ -4,7 +4,7 @@
 <div class="container p-3">
     <div class="main-body">
         <div class="row">
-            <div class="col-lg-4 mb-3">
+            <div class="col-lg-3 mb-3">
                 <div class="card mb-3 h-100">
                     <div class="card-body position-relative">
                         <div class="d-flex flex-column justify-content-center align-items-center text-center overflow-hidden">
@@ -66,133 +66,61 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-8 mb-3">
+            <div class="col-lg-9 mb-3">
                 <div class="card mb-3 h-100">
                     <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-12 mb-3">
-                                
-                                <div class="d-flex justify-content-between">
-                                    <div class="d-flex flex-row gap-2">
-                                        <div class=" col-8 bg-primary text-white p-2 rounded text-center">{{ "Balance : ".$user->balance }}</div>
-                                        <div class=" col-8 bg-info text-white p-2 rounded text-center">{{ "Trips : ".$user->trips->count() }}</div>
-                                    </div>
-                                    <div class="">
-                                        <button class="btn btn-sm btn-secondary" id="user_day" onclick="userChart('day',{{ $user->id }})">D</button>
-                                        <button class="btn btn-sm btn-secondary" id="user_week" onclick="userChart('week',{{ $user->id }})">W</button>
-                                        <button class="btn btn-sm btn-secondary" id="user_month" onclick="userChart('month',{{ $user->id }})">M</button>
-                                        <button class="btn btn-sm btn-secondary" id="user_year" onclick="userChart('year',{{ $user->id }})">Y</button>
-                                    </div>
-                                </div>
-                                <div style="width: 100%;"><canvas id="userChart"></canvas></div>
-                            </div>
+                        <span class=""><i class="fa-sharp fa-solid fa-location-dot me-2"></i> TRIP HISTORY</span>
+                        <div class="table-responsive">
+                            <table class="table table-hover text-center">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">NO</th>
+                                        <th scope="col">Distance (Km)</th>
+                                        <th scope="col">Total Cost (Ks)</th>
+                                        <th scope="col">Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($trips as $key => $trip)
+                                        <tr>
+                                            <td class="text-muted">{{ $loop->index + 1 }}</td>
+                                            <td class="text-muted">{{ $trip->distance }}</td>
+                                            <td class="text-muted">{{ $trip->total_cost }}</td>
+                                            <td class="text-muted">{{ Carbon\Carbon::parse($trip->created_at)->format('F j,Y') }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-12">
-            <div class="row align-items-stretch">
-                <div class="col-md-6">
-                    <div class="card mb-3 h-100">
-                        <div class="card-body">
-                            <span class=""><i class="fa-solid fa-wallet me-2"></i> TOPUP HISTORY</span>
-                            <div class="table-responsive">
-                                <table class="table table-hover text-center">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">NO</th>
-                                            <th scope="col">Amount</th>
-                                            <th scope="col">Date</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($transactions as $key => $transaction)
-                                            <tr>
-                                                <td class="text-muted">{{ $loop->index + 1 }}</td>
-                                                <td class="text-muted">{{ $transaction->amount }}</td>
-                                                <td class="text-muted">{{ Carbon\Carbon::parse($transaction->created_at)->format('F j,Y') }}</td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
+                    <div class="card-footer">
+
+                        <nav class="d-flex flex-row m-0 me-3 justify-content-between align-items-center">
+                            <div class="">
+                            Total Trips :{{ $tripsCount }}
                             </div>
-                        </div>
-                        <div class="card-body position-relative p-3">
-                            <nav class="row m-0 position-absolute bottom-0 end-0 me-3">
-                                <ul class="pagination pagination-sm justify-content-end p-0 small">
-                                    <li class="page-item {{ $transactions->onFirstPage() ? 'disabled' : '' }}">
-                                        <a class="page-link" href="{{ $transactions->previousPageUrl() }}" rel="prev">&laquo;</a>
+                            <div class="">
+                                <ul class="pagination pagination-sm justify-content-end m-0 p-0 small">
+                                    <li class="page-item {{ $trips->onFirstPage() ? 'disabled' : '' }}">
+                                        <a class="page-link" href="{{ $trips->previousPageUrl() }}" rel="prev">&laquo;</a>
                                     </li>
 
                                     <li class="page-item active">
-                                        <a class="page-link"
-                                            href="{{ $transactions->url($transactions->currentPage()) }}">{{ $transactions->currentPage() }}</a>
+                                        <a class="page-link" href="{{ $trips->url($trips->currentPage()) }}">{{ $trips->currentPage() }}</a>
                                     </li>
 
-                                    <li class="page-item {{ $transactions->hasMorePages() ? '' : 'disabled' }}">
-                                        <a class="page-link" href="{{ $transactions->nextPageUrl() }}" rel="next">&raquo;</a>
+                                    <li class="page-item {{ $trips->hasMorePages() ? '' : 'disabled' }}">
+                                        <a class="page-link" href="{{ $trips->nextPageUrl() }}" rel="next">&raquo;</a>
                                     </li>
                                 </ul>
-                            </nav>
-
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="card mb-3 h-100">
-                        <div class="card-body">
-                            <span class=""><i class="fa-sharp fa-solid fa-location-dot me-2"></i> TRIP HISTORY</span>
-                            <div class="table-responsive">
-                                <table class="table table-hover text-center">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">NO</th>
-                                            <th scope="col">Distance (Km)</th>
-                                            <th scope="col">Total Cost (Ks)</th>
-                                            <th scope="col">Date</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($trips as $key => $trip)
-                                            <tr>
-                                                <td class="text-muted">{{ $loop->index + 1 }}</td>
-                                                <td class="text-muted">{{ $trip->distance }}</td>
-                                                <td class="text-muted">{{ $trip->total_cost }}</td>
-                                                <td class="text-muted">{{ Carbon\Carbon::parse($trip->created_at)->format('F j,Y') }}</td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
                             </div>
-                        </div>
-                        <div class="card-body">
-
-                            <nav class="d-flex flex-row m-0 me-3 justify-content-between align-items-center">
-                                <div class="">
-                                Total Trips :{{ $tripsCount }}
-                                </div>
-                                <div class="">
-                                    <ul class="pagination pagination-sm justify-content-end m-0 p-0 small">
-                                        <li class="page-item {{ $trips->onFirstPage() ? 'disabled' : '' }}">
-                                            <a class="page-link" href="{{ $trips->previousPageUrl() }}" rel="prev">&laquo;</a>
-                                        </li>
-
-                                        <li class="page-item active">
-                                            <a class="page-link" href="{{ $trips->url($trips->currentPage()) }}">{{ $trips->currentPage() }}</a>
-                                        </li>
-
-                                        <li class="page-item {{ $trips->hasMorePages() ? '' : 'disabled' }}">
-                                            <a class="page-link" href="{{ $trips->nextPageUrl() }}" rel="next">&raquo;</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </nav>
-                        </div>
+                        </nav>
                     </div>
                 </div>
             </div>
+          
         </div>
+        
     </div>
 </div>
 

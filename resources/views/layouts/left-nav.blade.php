@@ -208,6 +208,18 @@
 							<a class="nav-link @if (url()->current() == route('trip.index')) active @endif" href="{{ route('trip.index') }}">All
 								Trip</a>
 						</li>
+						<li class="nav-item">
+							<a class="nav-link @if (url()->current() == route('trips.accepted')) active @endif" href="{{ route('trips.accepted') }}">Accepted Trips
+								</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link @if (url()->current() == route('trips.completed')) active @endif" href="{{ route('trips.completed') }}">Completed Trips
+								</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link @if (url()->current() == route('trips.canceled')) active @endif" href="{{ route('trips.canceled') }}">Canceled Trips
+								</a>
+						</li>
 					</ul>
 				</div>
 			</li>

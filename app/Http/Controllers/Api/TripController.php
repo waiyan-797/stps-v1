@@ -182,6 +182,10 @@ class TripController extends Controller
             $system->balance += $percentageAmount;
             $system->save();
             $trip->save();
+            
+
+           
+            // $fee = $trip->exterfees;
             return response()->json($trip);
 
 

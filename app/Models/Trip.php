@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\CarType;
 use App\Models\User;
+use App\Models\Fee;
+
 
 class Trip extends Model
 {
@@ -42,5 +45,10 @@ class Trip extends Model
     public function cartype()
     {
         return $this->hasOne(CarType::class);
+    }
+
+    public function exterfees(){
+        return $this->belongsToMany(Fee::class, 'tripandexterfee', 'trip_id', 'exter_id');
+       
     }
 }
