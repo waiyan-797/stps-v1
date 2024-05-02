@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AppDownloadController;
 use App\Http\Controllers\Backend\ChangeLogController;
 use App\Http\Controllers\Backend\CustomerController;
 use App\Http\Controllers\Backend\CustomNotificationController;
@@ -13,6 +14,7 @@ use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Broadcast;
+use Spatie\Permission\Contracts\Role;
 
 /*
 |--------------------------------------------------------------------------
@@ -126,3 +128,9 @@ Route::middleware(['auth', 'role:admin|staff'])->group(function () {
 
 // Route::post('/send-otp', [UserController::class, 'sendOTP']);
 // Route::get('/send-otp', [UserController::class, 'sendOTP']);
+
+Route::get('customer/app/download',[AppDownloadController::class,'customerDownload'])->name('customer.app');
+Route::get('driver/app/download',[AppDownloadController::class,'driverDownload'])->name('driver.app');
+Route::get('download',function(){
+        return view('appdownload.index');
+});

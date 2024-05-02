@@ -39,7 +39,7 @@
 		<div class="table-responsive small">
 			<table class="table table-striped table-hover">
 				<thead class="table-secondary align-top" style="border-bottom:1px solid #ccc">
-					<tr class="">
+					<tr class="text-center">
 						<th>#</th>
 						<th>Trip ID</th>
 						<th>Driver Name</th>
@@ -56,19 +56,23 @@
 				</thead>
 				<tbody class="table-group-divider" style="border-top:10px solid #ffffff">
 					@foreach ($trips as $key => $trip)
-						<tr class="">
+						<tr class="text-center">
 							<td>{{$loop->index +1}}</td>
 							<td scope="row">
 								<a class="text-dark text-decoration-none" href="{{route('trip.show',$trip->id)}}">
 								ID-{{$trip->id }}
 							</a></td>
 							
-
+							@dd($trip)
 							<td>
-								<a class="text-dark text-decoration-none"
-									href="{{ route('trip.show', $trip->id) }}">
-									{{$trip->user->name}}
-								</a>
+									<a class="text-dark text-decoration-none"
+										href="{{ route('trip.show', $trip->id) }}">
+										@if($trip->user)
+										{{$trip->user->name}}
+										@else
+										 --
+										@endif
+									</a>
 							</td>
 							<td>
 								@if($trip->user_id === null)

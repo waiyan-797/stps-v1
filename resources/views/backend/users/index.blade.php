@@ -31,11 +31,8 @@
 				<tbody class="table-group-divider" style="border-top:10px solid #ffffff">
 					@foreach ($users as $key => $user)
 						<tr class="">
-							<td>
-								@if ($users->lastPage() > 1)
-                                   {{$loop->index + 1}}
-                            	@endif
-							</td>
+							<td>{{$loop->index + 1 }}</td>
+							
 							<td>{{ $user->driver_id }}</td>
 							<td>
 								<a class="text-dark text-decoration-none" href="{{ route('users.show', $user->id) }}">{{ $user->name }}</a>

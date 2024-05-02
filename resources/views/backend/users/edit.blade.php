@@ -11,6 +11,18 @@
 						<div class="col-md-6">
 							<div class=" mb-3">
 								<label class="form-label" for="name">
+									<span class="text-danger">*</span>{{ __('Driver ID') }}
+								</label>
+								<input class="form-control @error('driver_id') is-invalid @enderror" id="driver_id" name="driver_id" type="text"
+									value="{{ old('name', $user->driver_id) }}" required autocomplete="Driver ID" autofocus>
+								@error('driver_id')
+									<div class="invalid-feedback">
+										{{ $message }}
+									</div>
+								@enderror
+							</div>
+							<div class=" mb-3">
+								<label class="form-label" for="name">
 									<span class="text-danger">*</span>{{ __('Username') }}
 								</label>
 								<input class="form-control @error('name') is-invalid @enderror" id="name" name="name" type="text"

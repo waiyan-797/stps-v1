@@ -8,6 +8,12 @@
 		<!-- Right Side Of Navbar -->
 		<ul class="navbar-nav flex-row ms-auto">
 			<!-- Authentication Links -->
+			{{-- <li class="mx-3">
+				<a href="{{route('customer.app')}}" class="text-decoration-none btn btn-primary btn-sm ">customer.app</a>
+			</li>
+			<li class="mx-3">
+				<a href="{{route('driver.app')}}" class="text-decoration-none btn btn-primary btn-sm ">driver.app</a>
+			</li> --}}
 			<li class="nav-item d-flex  align-items-center pe-3" id="noti">
 				<a class="text-black text-decoration-none" href="{{ route('topup.notification') }}">
 					<i class="fa-regular fa-bell"></i>

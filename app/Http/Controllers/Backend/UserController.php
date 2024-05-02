@@ -235,6 +235,7 @@ class UserController extends Controller
 
 
         $validatedData = $request->validate([
+            'driver_id' => 'required',
             'name' => 'required|string|max:255',
             'phone' => 'required|string|max:255',
             'password' => ['nullable', 'string', 'min:8', 'max:255'],
@@ -259,6 +260,8 @@ class UserController extends Controller
             $user->address = $validatedData['address'];
             $user->nrc_no = $validatedData['nrc_no'];
             $user->driving_license = $validatedData['driving_license'];
+            $user->driver_id = $validatedData['driver_id'];
+
             if ($validatedData['password']) {
                 $validatedData['password'] = Hash::make($validatedData['password']);
             }
