@@ -10,7 +10,7 @@
                         <div class="d-flex flex-column justify-content-center align-items-center text-center overflow-hidden">
                             
                             @if ($user->userImage && $user->userImage->profile_image && file_exists('uploads/images/profiles/'.$user->userImage->profile_image))
-
+                           
                                 <div class="">
                                     <img src="{{ asset('uploads/images/profiles/'. $user->userImage->profile_image) }}" alt="User"
                                         style="width:100%;height:20rem; object-fit:cover;object-position: center;">

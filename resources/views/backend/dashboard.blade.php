@@ -2,9 +2,16 @@
 
 @section('content')
 	<div class="container py-4">
+        <div class="col-md-12 mx-0 mt-3 shadow-sm p-3">
+			<div class="row">
+                
+               
+
+            </div>
+        </div>
 		<div class="col-md-12 mx-0 mt-3 shadow-sm p-3">
 			<div class="row">
-                <div class="col-md-9">
+                <div class="col-md-7">
                     <div class="row">
                         <div class="d-flex justify-content-between px-5">
                             <label for="topup">Topup Summary</label>
@@ -18,7 +25,39 @@
                         <div style="width: 100%;"><canvas id="topup"></canvas></div>
                     </div>
 			    </div>
-                <div class="col-md-3 text-center text-md-start">
+                <div class="col-md-5">
+                   <div class="card col-12 " >
+                      <div class="card-header">
+                          <p>Driver Rating and Count</p>
+                      </div>
+                      <div class="card-body">
+                        <ul id="drivercount" class="navbar-nav" style="height: 300px;overflow-y:auto;overflow-x:hidden">
+                            {{-- <li title="Driver Id : 007" class="nav-item d-flex  align-items-center border-bottom pb-2 my-2">
+                                <span class="col-1">1</span>
+                                <div class="d-flex col-7">
+                                     
+                                     <img class="" src="{{ asset('assets/logo/user.png') }}" alt="User"
+                                     style="width:3rem;height:3rem; object-fit: cover; object-position: center;border-radius:100%;margin-right:15px">
+                           
+    
+                                    <div class="col-8 text-center">
+                                        <div>Name</div>
+                                        <div>09798123005</div>
+                                    </div>
+                                </div>
+                                <div class="col-5 text-center">
+                                    <div>total trip</div>
+                                    <div>30</div>
+                                </div>
+    
+                            </li>
+                           --}}
+                        </ul>
+    
+                      </div>
+                   </div>
+                </div>
+                {{-- <div class="col-md-3 text-center text-md-start">
                     <div class="">
                         <div class="mt-5">
                             <h1 class=" fw-bold">{{ $balence }} Ks</h1>
@@ -56,7 +95,7 @@
                             </a>
                         </div>
                     </div>
-                </div>
+                </div> --}}
             </div>
 		</div>
         <div class="col-md-12 mx-0 mt-3 shadow-sm p-3">
@@ -216,7 +255,7 @@
                             tripCount: data[key].tripCount,
                         };
                     });
-                    console.log(arr);
+                    // console.log(arr);
 
                     if (!tripChartInstance) {
                         // Create the chart instance if it doesn't exist
@@ -260,10 +299,68 @@
                     document.querySelector(`#trip_${range}`).classList.remove('btn-secondary');
         }
 
+        async function driverTripCount(range) {
+            await axios.get(`${domain}trip-count-driver/${range}`)
+                    .then((resporn) => {
+                        let drivercount = document.querySelector('#drivercount');
+
+                        // console.log(drivercount)
+                       
+                        resporn.data.forEach((item,idx)=>{
+                            drivercount.innerHTML += `
+                        <li title="Driver Id : 007" class="nav-item d-flex  align-items-center border-bottom pb-2 my-2">
+                                <span class="col-1">${idx +1}</span>
+                                <div class="d-flex col-7">
+                                     
+                                     <img class="" src="${item.user_image.profile_image === null ? domain+'assets/logo/user.png': domain+'uploads/images/profiles/'+item.user_image.profile_image}" alt="User"
+                                     style="width:3rem;height:3rem; object-fit: cover; object-position: center;border-radius:100%;margin-right:15px">
+                           
+    
+                                    <div class="col-8 text-center">
+                                        <div>${item.name}</div>
+                                        <div>${item.phone}</div>
+                                    </div>
+                                </div>
+                                <div class="col-5 text-center">
+                                    <div>total trip</div>
+                                    <div>${item.trips_count}</div>
+                                </div>
+    
+                            </li>
+                          
+                        `;
+                        // console.log(item)
+                           
+                        })
+                                                
+                        // console.log(resporn.data)
+                        
+                    })
+                    .catch((error) => {
+                        console.log(error)
+                        
+                    })
+                
+
+
+
+
+            const ranges = ['day', 'week', 'month', 'year'];
+                    ranges.forEach((rag) => {
+                        document.querySelector(`#trip_${rag}`).classList.remove('btn-dark');
+                        document.querySelector(`#trip_${rag}`).classList.add('btn-secondary');
+                    });
+
+                    document.querySelector(`#trip_${range}`).classList.add('btn-dark');
+                    document.querySelector(`#trip_${range}`).classList.remove('btn-secondary');
+        }
+
+
          window.onload = function () {
             commissionChart('month');
             topupChart('month');
             tripChart('month');
+            driverTripCount('month')
         };
     </script>
 @endpush

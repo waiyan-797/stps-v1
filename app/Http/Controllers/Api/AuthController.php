@@ -45,6 +45,7 @@ class AuthController extends Controller
             'front_license_image' => 'nullable|image',
             'back_license_image' => 'nullable|image',
             'vehicle_image' => 'nullable|image',
+            'profile_image' => 'nullable|image',
             'type'  =>'nullable'
         ]);
 
@@ -87,6 +88,9 @@ class AuthController extends Controller
             $vehicleImageName = time() . '.' . $vehicleImage->getClientOriginalExtension();
             $vehicleImage->storeAs('uploads/images/vehicles', $vehicleImageName);
             $vehicle->vehicle_image_url = $vehicleImageName;
+            
+
+            
         }
         $vehicle->save();
 
@@ -99,6 +103,8 @@ class AuthController extends Controller
             $frontNrcImageName = time() . '.' . $frontNrcImage->getClientOriginalExtension();
             $frontNrcImage->storeAs('uploads/images/front_nrcs', $frontNrcImageName);
             $userImage->front_nrc_image = $frontNrcImageName;
+           
+
         }
 
         // upload and save back NRC image
@@ -107,6 +113,8 @@ class AuthController extends Controller
             $backNrcImageName = time() . '.' . $backNrcImage->getClientOriginalExtension();
             $backNrcImage->storeAs('uploads/images/back_nrcs', $backNrcImageName);
             $userImage->back_nrc_image = $backNrcImageName;
+          
+
         }
 
         // upload and save front license image
@@ -115,6 +123,8 @@ class AuthController extends Controller
             $frontLicenseImageName = time() . '.' . $frontLicenseImage->getClientOriginalExtension();
             $frontLicenseImage->storeAs('uploads/images/front_licenses', $frontLicenseImageName);
             $userImage->front_license_image = $frontLicenseImageName;
+            
+
         }
 
         // upload and save back license image
@@ -123,6 +133,18 @@ class AuthController extends Controller
             $backLicenseImageName = time() . '.' . $backLicenseImage->getClientOriginalExtension();
             $backLicenseImage->storeAs('uploads/images/back_licenses', $backLicenseImageName);
             $userImage->back_license_image = $backLicenseImageName;
+          
+
+        }
+
+         // upload and save profile  image
+         if ($request->hasFile('profile_image')) {
+            $profileImage = $request->file('profile_image');
+            $profileImageName = time() . '.' . $profileImage->getClientOriginalExtension();
+            $profileImage->storeAs('uploads/images/profiles', $profileImageName);
+            
+            $userImage->profile_image = $profileImageName;
+          
         }
 
         // save user images to database

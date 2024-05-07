@@ -369,6 +369,7 @@ class CustromerTripController extends Controller
     $nearbyDriver = User::role('user')
             ->where('status','active')
             ->where('available',true)
+            ->where('balance','>=',3000)
             ->select('users.id',
              DB::raw("6371 * acos(cos(radians($latitude)) *
                       cos(radians(users.lat)) *

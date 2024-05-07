@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\FeeController;
 use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\SystemController;
 use App\Http\Controllers\Api\DriverSearchController;
+use App\Http\Controllers\Api\ForgetPasswordController;
 use App\Http\Controllers\Api\TransactionController;
 use App\Http\Controllers\Api\TripController;
 use App\Http\Controllers\Api\TripStatusController;
@@ -103,15 +104,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     // driver and customer 
     Route::post('trip/status/update/{id}',[TripController::class,'tripStatusupdate']);
-
-
+   
     
     
 
     // test 
     Route::get('driver/search',[DriverSearchController::class,'searcTripnearhDriver']);
     Route::post('driver/cancel/search/driver',[DriverSearchController::class,'drivercancleanotherdriver']);
- 
     Route::post('/driver/trip/end/{id}',[TripStatusController::class,'end']);
     Route::get('/driver/trip/cash/{id}',[TripStatusController::class,'cash']);
 
@@ -122,6 +121,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     // customer route 
     Route::get('/get-fee', [SystemController::class, 'getFee']);
-    //send otp customer 
+    //send otp customer and forget password
     Route::post('/verify/otp',[AuthController::class,'verifyOtp']);
     Route::post('/send-otp', [AuthController::class, 'sendOTP']);
+
+    // forget password 
+    Route::post('forget/password',[ForgetPasswordController::class,'forgetPassword']);
+

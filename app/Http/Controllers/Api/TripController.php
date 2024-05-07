@@ -6,11 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Models\System;
 use App\Models\Transaction;
 use App\Events\TripCreated;
+use App\Events\DriverUpdated;
 use App\Models\Trip;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
 
 class TripController extends Controller
 {
@@ -117,8 +119,19 @@ class TripController extends Controller
             $system->save();
             $trip->save();
 
+            $drivers = User::role('user')
+            ->with(['trips' => function ($query) {
+                $query->whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()]);
+            },'userImage'])
            
-    
+            ->withCount(['trips' => function ($query) {
+                $query->whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
+                ->where('status','completed');
+                
+            }])->orderBy('trips_count','desc')
+           
+            ->get();
+            event(new DriverUpdated($drivers));
             return response()->json($trip);
         }else{
                     $trip = Trip::findOrFail($request->trip_id);
@@ -160,10 +173,12 @@ class TripController extends Controller
            
             $totalCost = $request->total_cost; // Total amount
             $total = $totalCost + $initial_fee;
-            $percentage = $system->order_commission_fee; // Percentage to calculate
+            $percentage = $system->order_commission_fee; // Percentage to calculate 10
             
             // Calculate the percentage amount
-            $percentageAmount = ($percentage / 100) * $total;
+            // $percentageAmount = ($percentage / 100) * $total;
+            $percentageAmount = ($total * $percentage) / 100;
+
             
             // Update user's balance
             $driver->balance -= $percentageAmount;
@@ -184,6 +199,23 @@ class TripController extends Controller
             $trip->save();
             
 
+
+
+
+            $drivers = User::role('user')
+            ->with(['trips' => function ($query) {
+                $query->whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()]);
+            },'userImage'])
+           
+            ->withCount(['trips' => function ($query) {
+                $query->whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
+                ->where('status','completed');
+                
+            }])->orderBy('trips_count','desc')
+           
+            ->get();
+            event(new DriverUpdated($drivers));
+          
            
             // $fee = $trip->exterfees;
             return response()->json($trip);
@@ -303,4 +335,8 @@ class TripController extends Controller
 
     //     return response()->json($trip, 201);
     // }
+
+
+
+   
 }

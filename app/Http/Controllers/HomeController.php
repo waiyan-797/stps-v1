@@ -37,6 +37,48 @@ class HomeController extends Controller
         $balance = $collection->sum('amount');
 
         $users = User::role('user')->get();
+
+        // foreach ($users as $user) {
+        //     $startDate = Carbon::now()->startOfMonth();
+        //     $endDate = Carbon::now()->endOfMonth();
+        
+        //     // Filter the trips that occur within the specified date range
+        //     $tripCount = $user->trips()
+        //                       ->whereBetween('created_at', [$startDate, $endDate])
+        //                       ->count();
+        
+        //     // You might want to add this as a property or array item for later use
+        //     // $user->tripCount = $tripCount;
+
+        //     dd($tripCount);
+        // }
+
+//         $drivers = User::role('user')
+//     ->withCount(['trips' => function ($query) {
+//         $query->whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()]);
+//     }])
+//     ->get(['id', 'name']);
+
+// dd($drivers);
+    
+//     dd($drivers);
+
+        //  $startDate = Carbon::now()->startOfYear();
+        //     $endDate = Carbon::now()->endOfYear();
+
+        //   $drivers = User::role('user')->with(['trips' => function ($query) {
+        //     $query->whereBetween('created_at', [now()->startOfMonth(), now()->endOfMonth()]);
+        // }])     
+        // ->get(['id', 'name']);
+
+        //     $collection = collect($drivers);
+
+        //     $drivers = $collection->groupBy(function ($driver) {
+        //         return Carbon::parse($driver->created_at)->format('Y-m');
+        //     });
+      
+
+
         return view('backend.dashboard', ['balence' => $balance, 'users' => $users]);
     }
 
@@ -298,5 +340,63 @@ class HomeController extends Controller
         }
 
         return response()->json($trips->all());
+    }
+
+    public function drivertripcount($range)
+    {
+
+        if ($range === 'day') {
+           
+
+            $drivers = User::role('user')->with(['trips' => function ($query) {
+                $query->whereBetween('created_at', [Carbon::now()->startOfDay(),Carbon::now()->endOfDay()]);
+            }])     
+            ->get(['id', 'name']);
+          return [
+                'date' => $drivers ,
+                
+            ];
+        } elseif ($range === 'week') {
+
+            $drivers = User::role('user')->with(['trips' => function ($query) {
+                $query->whereBetween('created_at', [Carbon::now()->startOfWeek(),Carbon::now()->endOfWeek()]);
+            }])     
+            ->get(['id', 'name']);
+          return $drivers;
+        } elseif ($range === 'month') {
+          
+            
+ 
+
+            $drivers = User::role('user')
+            ->with(['trips' => function ($query) {
+                $query->whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()]);
+            },'userImage'])
+           
+            ->withCount(['trips' => function ($query) {
+                $query->whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
+                ->where('status','completed');
+                
+            }])->orderBy('trips_count','desc')
+           
+            ->get();
+
+            return $drivers;
+       
+        } elseif ($range === 'year') {
+           
+            $drivers = User::role('user')->with(['trips' => function ($query) {
+                $query->whereBetween('created_at', [Carbon::now()->startOfYear(),Carbon::now()->endOfYear()]);
+            }])     
+            ->get(['driver_id', 'name']);
+          return [
+                'date' => $drivers ,
+                
+            ];
+        }
+
+       
+     
+
     }
 }

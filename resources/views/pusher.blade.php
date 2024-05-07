@@ -28,13 +28,13 @@
 //   // You can add your own logic here to handle the PONG event
 // });
 
-    var channel = pusher.subscribe('booking-channel');
-    channel.bind('booking-event', function(data) {
-    //   alert(JSON.stringify(data));\
+    // var channel = pusher.subscribe('booking-channel');
+    // channel.bind('booking-event', function(data) {
+    // //   alert(JSON.stringify(data));\
 
-            let booking = JSON.stringify(data)
-    console.log(booking);
-    });
+    //         let booking = JSON.stringify(data)
+    // console.log(booking);
+    // });
 
 
     // var channel = pusher.subscribe('trip-request-channel');
@@ -60,6 +60,13 @@
     // console.log(driver);
     // });
 
+     var channel = pusher.subscribe('drivers-count-channel');
+    channel.bind('drivers-count-event', function(data) {
+    //   alert(JSON.stringify(data));\
+
+            let driver = JSON.stringify(data)
+    console.log(driver);
+    });
    
   </script>
 </head>

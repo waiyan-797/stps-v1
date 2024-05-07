@@ -82,6 +82,7 @@ Route::middleware(['auth', 'role:admin|staff'])->group(function () {
     Route::get('/topup-chart/{range}', [HomeController::class, 'topupChat'])->name('topup.chart');
     Route::get('/trip-chart/{range}', [HomeController::class, 'tripChat'])->name('trip.chart');
     Route::get('/income-summary/{type}', [IncomeSummaryController::class, 'incomeSummary'])->name('income.summary');
+    Route::get('/trip-count-driver/{range}', [HomeController::class, 'drivertripcount'])->name('driver.trip.count');
 
     Route::get('/change-log', [ChangeLogController::class, 'index'])->name('changeLog');
     Route::post('/change-log', [ChangeLogController::class, 'store'])->name('changeLog.add');
