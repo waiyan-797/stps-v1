@@ -119,19 +119,19 @@ class TripController extends Controller
             $system->save();
             $trip->save();
 
-            $drivers = User::role('user')
-            ->with(['trips' => function ($query) {
-                $query->whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()]);
-            },'userImage'])
+            // $drivers = User::role('user')
+            // ->with(['trips' => function ($query) {
+            //     $query->whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()]);
+            // },'userImage'])
            
-            ->withCount(['trips' => function ($query) {
-                $query->whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
-                ->where('status','completed');
+            // ->withCount(['trips' => function ($query) {
+            //     $query->whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
+            //     ->where('status','completed');
                 
-            }])->orderBy('trips_count','desc')
+            // }])->orderBy('trips_count','desc')
            
-            ->get();
-            event(new DriverUpdated($drivers));
+            // ->get();
+            // event(new DriverUpdated($drivers));
             return response()->json($trip);
         }else{
                     $trip = Trip::findOrFail($request->trip_id);
@@ -202,19 +202,19 @@ class TripController extends Controller
 
 
 
-            $drivers = User::role('user')
-            ->with(['trips' => function ($query) {
-                $query->whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()]);
-            },'userImage'])
+            // $drivers = User::role('user')
+            // ->with(['trips' => function ($query) {
+            //     $query->whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()]);
+            // },'userImage'])
            
-            ->withCount(['trips' => function ($query) {
-                $query->whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
-                ->where('status','completed');
+            // ->withCount(['trips' => function ($query) {
+            //     $query->whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
+            //     ->where('status','completed');
                 
-            }])->orderBy('trips_count','desc')
+            // }])->orderBy('trips_count','desc')
            
-            ->get();
-            event(new DriverUpdated($drivers));
+            // ->get();
+            // event(new DriverUpdated($drivers));
           
            
             // $fee = $trip->exterfees;
