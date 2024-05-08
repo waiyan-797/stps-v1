@@ -3,6 +3,7 @@
 
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\configController;
 use App\Http\Controllers\Api\CustromerTripController;
 use App\Http\Controllers\Api\DriverLocationController;
 use App\Http\Controllers\Api\FeeController;
@@ -127,4 +128,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     // forget password 
     Route::post('forget/password',[ForgetPasswordController::class,'forgetPassword']);
+
+    Route::get('/config',[configController::class,'config']);
+    Route::post('/config/add',[configController::class,'configstore']);
 
