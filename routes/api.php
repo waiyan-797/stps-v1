@@ -56,7 +56,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
    
   
-    Route::get('customer/trip/data',[CustromerTripController::class,'index']);
+   
 
     //routes for transactions
     Route::get('/user/transactions', [TransactionController::class, 'index']);
@@ -97,6 +97,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 
     // booking 
+    // Route::get('customer/trip/data',[CustromerTripController::class,'index']);
     Route::apiResource('/customer/trip', CustromerTripController::class, array("as" => "api"));//tripcreate and trip get custromer
     Route::post('customer/trip/update/{id}',[CustromerTripController::class,'update']);
     Route::get('driver/search/trip/{id}',[DriverSearchController::class,'searchTrip']);
